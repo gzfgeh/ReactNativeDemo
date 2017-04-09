@@ -12,103 +12,42 @@ import {
   View
 } from 'react-native';
 
-import TabBar from 'react-native-xtabbar';
-
-var TimerMixin = require('react-timer-mixin');
-var SplashScreen = require('./SplashScreen');
-var TopViewPager = require('./TopViewPager');
-
-class FreyRN extends Component {
-    // 构造
-    constructor(props) {
-        super(props);
-        // 初始状态
-        this.state = {
-            splashed: false,
-        };
-    }
-
-    componentDidMount() {
-        this.timer = setTimeout(
-            () => {
-                this.setState({splashed:true});
-            }, 3000
-        );
-    }
-
-    componentWillUnMount() {
-        this.timer && clearTimeout(this.timer);
-    }
-
-    render() {
-        if (this.state.splashed){
-            return (
-                <TabBar
-                    style={styles.container}
-                    navTextColor="#666666"
-                    navTextColorSelected="#4889db">
-                    <TabBar.Item
-                        icon={require('./image/home_b.png')}
-                        selectedIcon={require('./image/home_a.png')}
-                        title='化交首页'>
-                        <View>
-                            <Text>Home</Text>
-                        </View>
-                    </TabBar.Item>
-
-                    <TabBar.Item
-                        icon={require('./image/besttrade_b.png')}
-                        selectedIcon={require('./image/besttrade_a.png')}
-                        title='最优卖盘'>
-                        <View>
-                            <Text>最优卖盘</Text>
-                        </View>
-                    </TabBar.Item>
-
-                    <TabBar.Item
-                        icon={require('./image/myorder_b.png')}
-                        selectedIcon={require('./image/myorder_a.png')}
-                        title='化交资讯'>
-                        <View>
-                            <Text>化交资讯</Text>
-                        </View>
-                    </TabBar.Item>
-
-                    <TabBar.Item
-                        icon={require('./image/myorder_b.png')}
-                        selectedIcon={require('./image/myorder_a.png')}
-                        title='我的订单'>
-                        <View>
-                            <Text>我的订单</Text>
-                        </View>
-                    </TabBar.Item>
-
-                    <TabBar.Item
-                        icon={require('./image/my_b.png')}
-                        selectedIcon={require('./image/my_a.png')}
-                        badge={0}
-                        title='我的化交'>
-                        <View>
-                            <Text>我的化交</Text>
-                        </View>
-                    </TabBar.Item>
-
-                </TabBar>
-            );
-        }else{
-            return (
-                <SplashScreen />
-            )
-        }
-
-    }
+export default class RNDemo extends Component {
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.welcome}>
+          Welcome to React Native!
+        </Text>
+        <Text style={styles.instructions}>
+          To get started, edit index.android.js
+        </Text>
+        <Text style={styles.instructions}>
+          Double tap R on your keyboard to reload,{'\n'}
+          Shake or press menu button for dev menu
+        </Text>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#f9f9f9',
-    },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  },
 });
 
-AppRegistry.registerComponent('FreyRN', () => FreyRN);
+AppRegistry.registerComponent('RNDemo', () => RNDemo);
