@@ -12,42 +12,41 @@ import {
   View
 } from 'react-native';
 
-export default class RNDemo extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
-    );
-  }
-}
+import SplashScreen from './app/SplashScreen'
+import Navigation from './app/Navigation'
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+export default class RNDemo extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            splashed: false
+        }
+    }
+
+    componentDidMount(){
+        this.timer = setTimeout(()=>{
+            this.setState({
+                splashed: true
+            })
+        }, 3000);
+    }
+
+    componentWillUnMount(){
+        this.timer && clearTimeout(this.timer);
+    }
+
+    render(){
+        if (this.state.splashed){
+            return(
+                <Navigation />
+            );
+        }else{
+            return(
+                <SplashScreen/>
+            );
+        }
+    }
+
+}
 
 AppRegistry.registerComponent('RNDemo', () => RNDemo);
