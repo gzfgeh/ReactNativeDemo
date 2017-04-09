@@ -4,8 +4,9 @@
 import React, {Component} from 'react'
 import {
     StyleSheet,
-    Image} from 'react-native'
-import Style from './utils/theme'
+    Image
+    } from 'react-native'
+import Utils from './utils/theme'
 
 export default class SplashScreen extends React.Component{
     render(){
@@ -18,8 +19,8 @@ export default class SplashScreen extends React.Component{
 
 var styles = StyleSheet.create({
     splashStyle:{
-        width: Style.width,
-        height: Style.height,
+        width: Utils.screenWidth,
+        height: Utils.screenHeight,
         flex: 1,
         backgroundColor: 'blue'
     }
