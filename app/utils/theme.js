@@ -3,12 +3,12 @@
  */
 
 import React from 'react'
-import {ReactNative, Dimensions} from 'react-native'
+import {PixelRatio, Dimensions} from 'react-native'
 
 var screenWidth = Dimensions.get('window').width;
 var screenHeight = Dimensions.get('window').height;
-var fontScale = ReactNative.PixelRatio.getFontScale();
-var pixelRatio = ReactNative.PixelRatio.get();
+var fontScale = PixelRatio.getFontScale();
+var pixelRatio = PixelRatio.get();
 /**
  * 设计图 1080*1920 宽高
  * @type {number}
@@ -21,9 +21,6 @@ const h2 = 1920;
  * @returns {Number} dp
  */
 function pixToSp(uiPxSize) {
-    if (typeof uiPxSize !== Number){
-        return;
-    }
     var scaleWidth = screenWidth / w2;
     var scaleHeight = screenHeight / h2;
     var scale = Math.min(scaleWidth, scaleHeight);
@@ -36,11 +33,7 @@ function pixToSp(uiPxSize) {
  * @returns {Number}
  * @constructor
  */
-function pixToDp(uiPxSize) {
-    if (typeof uiPxSize !== Number){
-        return;
-    }
-
+function pixToDpSize(uiPxSize) {
     var scaleWidth = screenWidth / w2;
     var scaleHeight = screenHeight / h2;
     var scale = Math.min(scaleWidth, scaleHeight);
@@ -52,5 +45,5 @@ module.exports = {
     screenWidth,
     screenHeight,
     pixToSp,
-    pixToDp,
+    pixToDpSize,
 };
