@@ -27,8 +27,12 @@
 import React from 'react'
 import {View} from 'react-native'
 
-import Navigation from './Navigation'
-import SplashScreen from './../SplashScreen'
+import Navigation from './page/Navigation'
+import SplashScreen from './page/SplashScreen'
+import LaunchPage from './page/LaunchPage'
+import './common/Storage'
+import './common/ToastLog'
+
 
 export default class MainPage extends React.Component{
     // 构造
@@ -36,7 +40,8 @@ export default class MainPage extends React.Component{
         super(props);
         // 初始状态
         this.state = {
-            splashed: false
+            splashed: false,
+            launched: false,
         };
       }
 
@@ -44,11 +49,12 @@ export default class MainPage extends React.Component{
      * 设置定时器加载SplashScreen页面
      */
     componentDidMount(){
+        this._inquireData();
         this.timer = setTimeout(()=>{
             this.setState({
                 splashed: true
             })
-        }, 3000);
+        }, 1000);
     }
 
 
@@ -58,15 +64,45 @@ export default class MainPage extends React.Component{
     componentWillUnMount(){
         this.timer && clearTimeout(this.timer);
     }
+
+    /**
+     * _开头表示是本类的私有函数
+     * 查询是否第一次启动
+     * @private
+     */
+    _inquireData(){
+        storage.load({
+            key: 'launchKey',
+        }).then(ret => {
+            this.setState({
+                launched: ret.isComeOver,
+            });
+
+        }).catch(err => {
+            this.setState({
+                launched: false,
+            });
+        })
+    }
     
     render(){
         if (this.state.splashed){
-            return(
-                <View style={{flex: 1, justifyContent: 'flex-end'}}>
-                    <Navigation navigator={this.props.navigator}/>
-                </View>
-            );
+
+            if (this.state.launched){
+                return(
+                    <View style={{flex: 1, justifyContent: 'flex-end'}}>
+                        <Navigation navigator={this.props.navigator}/>
+                    </View>
+                );
+            }else {
+                //引导页
+                return(
+                    <LaunchPage navigator={this.props.navigator}/>
+                );
+            }
+
         }else{
+            //启动页
             return(
                 <SplashScreen/>
             );

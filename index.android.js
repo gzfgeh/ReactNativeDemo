@@ -13,7 +13,7 @@ import {
     Navigator
 } from 'react-native';
 
-import MainPage from './app/page/MainPage'
+import MainPage from './app/MainPage'
 
 /**
  * 因为Android ios 入口文件不一样，所以为了保持代码复用，这个文件内容应该尽量短少
