@@ -22,6 +22,6 @@ var styles = StyleSheet.create({
         width: Utils.screenWidth,
         height: Utils.screenHeight,
         flex: 1,
-        backgroundColor: 'blue'
+        backgroundColor: 'white'
     }
 });
