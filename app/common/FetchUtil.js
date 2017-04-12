@@ -23,6 +23,8 @@
 
  */
 
+import './../common/ApiContant'
+
 export default class FetchUtil {
     /**
      * 单例模式
@@ -35,7 +37,7 @@ export default class FetchUtil {
         return FetchUtil.instance;
     }
     init(){
-        this.url           = 'https://appnativepost.uat.shcem.com/shcem';
+        this.url           = ApiContant.BASE_URL;
         this.method        = 'POST';
         this.headers       = {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'};
         this.body_type     = 'json';

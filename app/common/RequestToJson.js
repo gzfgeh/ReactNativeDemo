@@ -1,50 +1,29 @@
 /**
- *
- *                            _ooOoo_
- *                           o8888888o
- *                           88" . "88
- *                           (| -_- |)
- *                           O\  =  /O
- *                        ____/`---'\____
- *                      .'  \\|     |//  `.
- *                     /  \\|||  :  |||//  \
- *                    /  _||||| -:- |||||-  \
- *                    |   | \\\  -  /// |   |
- *                    | \_|  ''\---/''  |   |
- *                    \  .-\__  `-`  ___/-. /
- *                  ___`. .'  /--.--\  `. . __
- *               ."" '<  `.___\_<|>_/___.'  >'"".
- *              | | :  `- \`.;`\ _ /`;.`/ - ` : | |
- *              \  \ `-.   \_ __\ /__ _/   .-` /  /
- *         ======`-.____`-.___\_____/___.-`____.-'======
- *                            `=---='
- *        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- *                      佛祖保佑       永无BUG
- *
  * Created by GUZHENFU on 2017/4/10.
  */
 
 export default class RequestToJson {
-
+    
     obj = {
         Params: '',
         MethodName: '',
         ServiceName: '',
-        Userid: '',
+        Userid: 'usercode',
         Version: 'Vlatest'
     }
     requestObj = {
         json: ''
     }
+    
     init(){
         this.params = '';
         this.methodName = '';
         this.serviceName = '';
-        this.Userid = '';
+        this.Userid = 'usercode';
         return this;
     }
     setParams(params){
-        this.params = params;
+        this.params = JSON.stringify(params);
         return this;
     }
     setMethodName(name){

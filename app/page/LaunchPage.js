@@ -1,6 +1,6 @@
 /**
  *
- * Description:
+ * Description: http://www.jianshu.com/p/81e414f81291
  *
  * Created by GUZHENFU on 2017/4/12.
  */
@@ -23,11 +23,8 @@ let image2 = require('./../image/launch_bg2.png');
 let image3 = require('./../image/launch_bg3.png');
 
 
-/**
- * http://www.jianshu.com/p/81e414f81291
- */
 export default class LaunchPage extends React.Component{
-    
+
     _endLaunchPage(){
         storage.save({
             key:'launchKey',
@@ -36,7 +33,7 @@ export default class LaunchPage extends React.Component{
             }
         })
         
-        this.props.navigator.push({component: Navigation});
+        this.props.navigator.push({component: Navigation, navigator: this.props.navigator});
     }
 
     render(){
