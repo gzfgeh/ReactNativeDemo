@@ -14,7 +14,7 @@ import {
 } from 'react-native'
 
 import Navigation from './Navigation'
-import Utils from './../utils/theme'
+import Utils from '../common/theme'
 import './../common/ToastLog'
 import './../common/Storage'
 

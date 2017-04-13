@@ -1,4 +1,17 @@
 /**
+ * {
+ *  "json":
+ *      {
+ *          "MethodName":"getTopInformList",
+ *          "ServiceName":"Shcem.Trade.ServiceContract.IQueryInfoService",
+ *          "Params":"{\"ProductID\":0,\"AppTypeID\":0,\"CatogoryID\":1879,\"Top\":5}",
+ *          "Userid":"usercode",
+ *          "Version":"Vlatest"
+ *      }
+ *  }
+ *
+ *
+ *
  * Created by GUZHENFU on 2017/4/10.
  */
 
@@ -44,7 +57,7 @@ export default class RequestToJson {
         this.obj.MethodName = this.methodName;
         this.obj.ServiceName = this.serviceName;
         this.obj.Userid = this.Userid;
-        this.requestObj.json = JSON.stringify(this.obj);
+        this.requestObj.json = this.obj;
         return this.requestObj;
     }
 }

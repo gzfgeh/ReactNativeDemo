@@ -1,29 +1,10 @@
 /**
  * Created by GUZHENFU on 2017/4/10.
  *
- *
- * let requestJson = new RequestToJson().init()
- .setParams(param)
- .setServiceName('Shcem.Member.ServiceContract.IClientLoginService')
- .setMethodName('UpdateUserImage')
- .setUserId(param.Token)
- .build();
- FetchUtil.getInstance().init()
- .setBody('json', requestJson)
- .dofetch()
- .then((data) => {
-                        ToastAndroid.show("头像上传成功"+param.UserImg, ToastAndroid.SHORT);
-                        this.setState({
-                            avatarSource : uploadUrl+param.UserImg
-                        })
-                    })
- .catch((error) => {
-                        ToastAndroid.show("绑定失败" + error, ToastAndroid.SHORT);
-                    })
-
  */
 
 import './../common/ApiContant'
+import './../common/ToastLog'
 
 export default class FetchUtil {
     /**
@@ -124,6 +105,7 @@ export default class FetchUtil {
                 options.body = data;
             }else if('json' == this.body_type){
                 options.body = JSON.stringify(this.bodys);
+                ToastLog(options.body);
             }
         }
         return Promise.race([

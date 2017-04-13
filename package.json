@@ -9,6 +9,7 @@
   "dependencies": {
     "react": "16.0.0-alpha.6",
     "react-native": "0.43.2",
+    "react-native-loading-spinner-overlay": "^0.4.4",
     "react-native-storage": "^0.1.5",
     "react-native-swiper": "^1.5.4",
     "react-native-tab-navigator": "^0.3.3",

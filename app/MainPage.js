@@ -54,7 +54,7 @@ export default class MainPage extends React.Component{
             this.setState({
                 splashed: true
             })
-        }, 1000);
+        }, 2000);
     }
 
 

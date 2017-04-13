@@ -11,7 +11,7 @@ import {
     ToastAndroid} from 'react-native'
 import TabNavigator from 'react-native-tab-navigator';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Utils from '../utils/theme'
+import Utils from '../common/theme'
 import HomePage from './HomePage'
 import MallPage from './MallPage'
 import InfoPage from './InfoPage'

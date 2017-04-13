@@ -6,7 +6,7 @@ import {
     StyleSheet,
     Image
     } from 'react-native'
-import Utils from '../utils/theme'
+import Utils from '../common/theme'
 
 export default class SplashScreen extends React.Component{
     render(){
