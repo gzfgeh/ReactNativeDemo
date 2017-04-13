@@ -80,7 +80,7 @@ export default class HomePage extends React.Component{
 
 
     _renderSwipeImage(){
-        for(let i=0 ; i<4; i++){
+        for(let i=0 ; i<5; i++){
             imageViews.push(
                 <Image style={styles.swipeImage} source={{uri: imageViewsUrl[i]}} key={i}/>
             )
@@ -94,13 +94,10 @@ export default class HomePage extends React.Component{
     render(){
         return(
         <View style={styles.container}>
-            <Swiper style={styles.swipeStyle}
+            <Swiper height={150}
                     paginationStyle={{bottom:10}}
                     autoplay={true}
-                    dot={<View style={{width:8,height:8,backgroundColor:'white',borderRadius:4,marginLeft:3,marginRight:3}}></View>}
-                    activeDot={<View style={{width:8,height:8,backgroundColor:'orange',borderRadius:4,marginLeft:3,marginRight:3}}></View>}
-                    bounces={true}
-                    showsHorizontalScrollIndicator={true}>
+                    loop={true}>
                 {this._renderSwipeImage()}
             </Swiper>
         </View>
