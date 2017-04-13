@@ -7,7 +7,7 @@
 
 global.ApiContant = {
     //UAT
-    BASE_URL : "https://appnativepost.uat.shcem.com/shcem/",
+    // BASE_URL : "https://appnativepost.uat.shcem.com/shcem/",
     DOWNLOAD_URL : "https://fms.uat.shcem.com/mapi/file/dynamicimage?id:",
     UPLOADER_URL : "https://fms.uat.shcem.com/mapi/file/uploadfile",
     FILE_LIST_URL : "https://fms.uat.shcem.com/mapi/file/FileInfos",
@@ -16,7 +16,7 @@ global.ApiContant = {
     NOTICE_CATOGOTY_ID : 1882,
 
     //生产
-    // BASE_URL : "https://appnativepost.shcem.com/shcem/",
+    BASE_URL : "https://appnativepost.shcem.com/shcem/",
     // DOWNLOAD_URL : "https://fms.shcem.com/mapi/file/dynamicimage?id=",
     // UPLOADER_URL : "https://fms.shcem.com/mapi/file/uploadfile",
     // FILE_LIST_URL : "https://fms.shcem.com/mapi/file/FileInfos",

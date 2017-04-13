@@ -105,7 +105,6 @@ export default class FetchUtil {
                 options.body = data;
             }else if('json' == this.body_type){
                 options.body = JSON.stringify(this.bodys);
-                ToastLog(options.body);
             }
         }
         return Promise.race([

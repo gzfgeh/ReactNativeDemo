@@ -42,52 +42,59 @@ export default class HomePage extends React.Component{
      * 得到轮播图的数据
      * @private
      */
-    componentWillMount(){
-        // let params = {
-        //     ProductID: 0,
-        //     AppTypeID: 0,
-        //     CatogoryID: 1879,
-        //     Top: 5,
-        // };
-        //
-        // let requestJson = new RequestToJson().init()
-        //     .setParams(params)
-        //     .setServiceName("Shcem.Inform.ServiceContract.IQueryInfoService")
-        //     .setMethodName( "getTopInformList")
-        //     .build();
-        //
-        // FetchUtil.getInstance().init()
-        //     .setBody(requestJson)
-        //     .dofetch()
-        //     .then((data) => {
-        //         // Array.from(data.DATA).map(ds => {
-        //         //     imageViews.push(
-        //         //         <Image style={{flex: 1}}
-        //         //                source={{uri: ApiContant.DOWNLOAD_URL + ds.FileID}}/>
-        //         //     )
-        //         // });
-        //         if (!this.state.loaded){
-        //             this.setState({
-        //                 loaded:true
-        //             });
-        //         }
-        //
-        //     })
-        //     .catch((error) => {
-        //
-        //     });
-    }
-
-
     _renderSwipeImage(){
-        for(let i=0 ; i<5; i++){
-            imageViews.push(
-                <Image style={styles.swipeImage} source={{uri: imageViewsUrl[i]}} key={i}/>
-            )
-        }
+        let params = {
+            ProductID: 0,
+            AppTypeID: 0,
+            CatogoryID: 1879,
+            Top: 5,
+        };
 
+        let requestJson = new RequestToJson().init()
+            .setParams(params)
+            .setServiceName("Shcem.Inform.ServiceContract.IQueryInfoService")
+            .setMethodName( "getTopInformList")
+            .build();
+
+        FetchUtil.getInstance().init()
+            .setBody(requestJson)
+            .dofetch()
+            .then((data) => {
+                ToastLog(data.DATA + "");
+
+                let list = JSON.parse(data.DATA);
+                for(let i=0, length=list.length; i<length; i++){
+                    list.map(ds => {
+                        imageViews.push(
+                            <Image style={{flex: 1}}
+                                   source={{uri: ApiContant.DOWNLOAD_URL + ds.FileID}} key={i}/>
+                        )
+                    })
+                }
+
+                if (!this.state.loaded){
+                    this.setState({
+                        loaded:true
+                    });
+                }
+
+            })
+            .catch((error) => {
+                ToastLog(error + "");
+            });
         return imageViews;
     }
+
+
+    // _renderSwipeImage(){
+    //     for(let i=0 ; i<5; i++){
+    //         imageViews.push(
+    //             <Image style={styles.swipeImage} source={{uri: imageViewsUrl[i]}} key={i}/>
+    //         )
+    //     }
+    //
+    //     return imageViews;
+    // }
 
     /** <Spinner visible={!this.state.loaded}/> **/
     
