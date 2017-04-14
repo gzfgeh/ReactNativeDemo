@@ -18,10 +18,12 @@ import './../common/ToastLog'
 import Spinner from 'react-native-loading-spinner-overlay'
 
 
-let imageViewsData = [];
 let projectText = ['现货交易', '我的交易', '我的询盘', '交易规则', '化交价格', '化交资讯', '化交报告', '资金详情'];
-let projectImage = [ './../image/list_1.png' , './../image/list_2.png', './../image/list_3.png', './../image/list_4.png',
-    './../image/list_5.png' , './../image/list_6.png', './../image/list_7.png', './../image/list_8.png'
+let projectImage = [
+    require('./../image/list_1.png'), require('./../image/list_2.png'),
+    require('./../image/list_3.png'), require('./../image/list_4.png'),
+    require('./../image/list_5.png'), require('./../image/list_6.png'),
+    require('./../image/list_7.png'), require('./../image/list_8.png')
 ];
 
 export default class HomePage extends React.Component{
@@ -30,7 +32,8 @@ export default class HomePage extends React.Component{
         super(props);
         // 初始状态
         this.state = {
-            loaded: false
+            loaded: false,
+            imageViewsData: []
         };
       }
 
@@ -43,30 +46,29 @@ export default class HomePage extends React.Component{
             let params = {
                 ProductID: 0,
                 AppTypeID: 0,
-                CatogoryID: 1879,
-                Top: 5,
+                CatogoryID: ApiContant.CATOGOTY_ID,
+                Top: ApiContant.TOP_NUM,
             };
 
 
             let requestJson = new RequestToJson().init()
                 .setParams(params)
-                .setServiceName("Shcem.Inform.ServiceContract.IQueryInfoService")
-                .setMethodName("getTopInformList")
+                .setServiceName(ApiContant.IQUERY_INFO_SERVICE)
+                .setMethodName(ApiContant.GET_TOP_INFORM_LIST)
                 .build();
 
             FetchUtil.getInstance().init()
                 .setBody(requestJson)
                 .dofetch()
                 .then((data) => {
-                    imageViewsData = JSON.parse(data.DATA);
+                    this.setState({
+                        imageViewsData: JSON.parse(data.DATA)
+                    });
+                })
+                .finally(() => {
                     this.setState({
                         loaded: true
                     });
-
-
-                })
-                .catch((error) => {
-                    ToastLog(error + "");
                 });
         }
     }
@@ -78,12 +80,11 @@ export default class HomePage extends React.Component{
      */
     _renderSwipeImage(){
         let imageViews = [];
-
         if (this.state.loaded){
-            Array.from(imageViewsData).map((ds, index) => {
+            Array.from(this.state.imageViewsData).map((ds, index) => {
                 imageViews.push(
                     <Image style={{flex: 1}}
-                           source={{uri: 'https://fms.uat.shcem.com/mapi/file/dynamicimage?id=' + ds.FileID}} key={index}/>
+                           source={{uri: ApiContant.DOWNLOAD_URL + ds.FileID}} key={index}/>
                 )
             });
             return imageViews;
@@ -99,15 +100,14 @@ export default class HomePage extends React.Component{
         let project = [];
         for(let i=0; i<8; i++){
             project.push(
-                <View style={styles.imageStyle}>
-                    <Image source={require('./../image/list_1.png')} style={styles.imageStyleView}/>
+                <View style={styles.imageStyle} key={i}>
+                    <Image source={projectImage[i]} style={styles.imageStyleView}/>
                     <Text>{projectText[i]}</Text>
                 </View>
             );
         }
+        return project;
     }
-
-    /** <Spinner visible={!this.state.loaded}/> **/
     
     render(){
 
@@ -128,45 +128,7 @@ export default class HomePage extends React.Component{
                     </Swiper>
 
                     <View style={styles.imageWrapperStyle}>
-                        <View style={styles.imageStyle}>
-                            <Image source={require('./../image/list_1.png')} style={styles.imageStyleView}/>
-                            <Text>现货交易</Text>
-                        </View>
-
-                        <View style={styles.imageStyle}>
-                            <Image source={require('./../image/list_2.png')} style={styles.imageStyleView}/>
-                            <Text>我的交易</Text>
-                        </View>
-
-                        <View style={styles.imageStyle}>
-                            <Image source={require('./../image/list_3.png')} style={styles.imageStyleView}/>
-                            <Text>我的询盘</Text>
-                        </View>
-
-                        <View style={styles.imageStyle}>
-                            <Image source={require('./../image/list_4.png')} style={styles.imageStyleView}/>
-                            <Text>交易规则</Text>
-                        </View>
-
-                        <View style={styles.imageStyle}>
-                            <Image source={require('./../image/list_5.png')} style={styles.imageStyleView}/>
-                            <Text>化交价格</Text>
-                        </View>
-
-                        <View style={styles.imageStyle}>
-                            <Image source={require('./../image/list_6.png')} style={styles.imageStyleView}/>
-                            <Text>化交资讯</Text>
-                        </View>
-
-                        <View style={styles.imageStyle}>
-                            <Image source={require('./../image/list_7.png')} style={styles.imageStyleView}/>
-                            <Text>化交报告</Text>
-                        </View>
-
-                        <View style={styles.imageStyle}>
-                            <Image source={require('./../image/list_8.png')} style={styles.imageStyleView}/>
-                            <Text>资金详情</Text>
-                        </View>
+                        {this._renderProject()}
                         <View style={{height: 2, width: '100%',backgroundColor:"#EBEBEB"}} />
 
                         <View style={styles.announceWrapStyle}>

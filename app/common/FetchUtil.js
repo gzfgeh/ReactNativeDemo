@@ -3,7 +3,7 @@
  *
  */
 
-import './../common/ApiContant'
+import ApiContant from './../common/ApiContant'
 import './../common/ToastLog'
 
 export default class FetchUtil {

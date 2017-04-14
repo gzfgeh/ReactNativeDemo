@@ -5,24 +5,24 @@
  * Created by GUZHENFU on 2017/4/12.
  */
 
-global.ApiContant = {
+ let ApiContant = {
     //UAT
-    BASE_URL : "https://appnativepost.uat.shcem.com/shcem/",
-    DOWNLOAD_URL : "https://fms.uat.shcem.com/mapi/file/dynamicimage?id=",
-    UPLOADER_URL : "https://fms.uat.shcem.com/mapi/file/uploadfile",
-    FILE_LIST_URL : "https://fms.uat.shcem.com/mapi/file/FileInfos",
-    URL_INFO_DETAIL : "https://inform.uat.shcem.com/Mobile/Index?QuotationID:",
-    CATOGOTY_ID : 1879,
-    NOTICE_CATOGOTY_ID : 1882,
+    // BASE_URL : "https://appnativepost.uat.shcem.com/shcem/",
+    // DOWNLOAD_URL : "https://fms.uat.shcem.com/mapi/file/dynamicimage?id=",
+    // UPLOADER_URL : "https://fms.uat.shcem.com/mapi/file/uploadfile",
+    // FILE_LIST_URL : "https://fms.uat.shcem.com/mapi/file/FileInfos",
+    // URL_INFO_DETAIL : "https://inform.uat.shcem.com/Mobile/Index?QuotationID:",
+    // CATOGOTY_ID : 1879,
+    // NOTICE_CATOGOTY_ID : 1882,
 
     //生产
-    // BASE_URL : "https://appnativepost.shcem.com/shcem/",
-    // DOWNLOAD_URL : "https://fms.shcem.com/mapi/file/dynamicimage?id=",
-    // UPLOADER_URL : "https://fms.shcem.com/mapi/file/uploadfile",
-    // FILE_LIST_URL : "https://fms.shcem.com/mapi/file/FileInfos",
-    // URL_INFO_DETAIL : "https://inform.shcem.com/Mobile/Index?QuotationID:",
-    // CATOGOTY_ID : 1895,
-    // NOTICE_CATOGOTY_ID : 1885,
+    BASE_URL : "https://appnativepost.shcem.com/shcem/",
+    DOWNLOAD_URL : "https://fms.shcem.com/mapi/file/dynamicimage?id=",
+    UPLOADER_URL : "https://fms.shcem.com/mapi/file/uploadfile",
+    FILE_LIST_URL : "https://fms.shcem.com/mapi/file/FileInfos",
+    URL_INFO_DETAIL : "https://inform.shcem.com/Mobile/Index?QuotationID:",
+    CATOGOTY_ID : 1895,
+    NOTICE_CATOGOTY_ID : 1885,
     
     TOP_NUM : 5,
 
@@ -107,4 +107,6 @@ global.ApiContant = {
     SAVE : "Save",
     GETFEE : "GetFee",
     PAY : "Pay",
-}
+};
+
+module.exports = ApiContant;
