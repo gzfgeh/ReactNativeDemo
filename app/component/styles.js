@@ -13,6 +13,9 @@ module.exports = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'rgba(0,0,0,0.5)',
+    },
+    pageNavBg:{
+        backgroundColor: '#959595'
     }
 });
 
