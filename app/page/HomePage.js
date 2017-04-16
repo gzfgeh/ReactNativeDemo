@@ -10,12 +10,10 @@ import {
     Image} from 'react-native'
 
 import Swiper from 'react-native-swiper'
-import Utils from '../common/theme'
-import FetchUtil from './../common/FetchUtil'
-import RequestToJson from './../common/RequestToJson'
 import ApiContant from './../common/ApiContant'
 import './../common/ToastLog'
 import Spinner from 'react-native-loading-spinner-overlay'
+import HomeModle from './../modle/HomeModle'
 
 
 let projectText = ['现货交易', '我的交易', '我的询盘', '交易规则', '化交价格', '化交资讯', '化交报告', '资金详情'];
@@ -43,24 +41,8 @@ export default class HomePage extends React.Component{
      */
     componentWillMount(){
         if (!this.state.loaded) {
-            let params = {
-                ProductID: 0,
-                AppTypeID: 0,
-                CatogoryID: ApiContant.CATOGOTY_ID,
-                Top: ApiContant.TOP_NUM,
-            };
-
-
-            let requestJson = new RequestToJson().init()
-                .setParams(params)
-                .setServiceName(ApiContant.IQUERY_INFO_SERVICE)
-                .setMethodName(ApiContant.GET_TOP_INFORM_LIST)
-                .build();
-
-            FetchUtil.getInstance().init()
-                .setBody(requestJson)
-                .dofetch()
-                .then((data) => {
+            HomeModle.getInstance().getTopInformList()
+                .then(data => {
                     this.setState({
                         imageViewsData: JSON.parse(data.DATA)
                     });
@@ -133,7 +115,14 @@ export default class HomePage extends React.Component{
 
                         <View style={styles.announceWrapStyle}>
                             <Image style={{width: 60, height: 20}} source={require('./../image/announce.png')}  resizeMode="stretch"/>
-                            <Text style={{width: '50%'}}>-----</Text>
+                            <Swiper height={120}
+                                    autoplay={true}
+                                    autoplayTimeout={4}
+                                    loop={true}
+                                    horizontal={false}>
+                                <Text>my -------</Text>
+                                <Text>my -fwoefjajf-</Text>
+                            </Swiper>
                             <Image style={{width: 15, height: 15}} source={require('./../image/turn_right.png')}  resizeMode="stretch"/>
                         </View>
 
