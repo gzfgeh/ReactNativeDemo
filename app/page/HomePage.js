@@ -7,7 +7,8 @@ import {
     StyleSheet,
     View,
     Text,
-    Image} from 'react-native'
+    Image,
+    TouchableHighlight} from 'react-native'
 
 import Swiper from 'react-native-swiper'
 import ApiContant from './../common/ApiContant'
@@ -65,8 +66,13 @@ export default class HomePage extends React.Component{
         if (this.state.loaded){
             Array.from(this.state.imageViewsData).map((ds, index) => {
                 imageViews.push(
-                    <Image style={{flex: 1}}
-                           source={{uri: ApiContant.DOWNLOAD_URL + ds.FileID}} key={index}/>
+                    <TouchableHighlight style={{flex: 1}} key={index}
+                                onPress = {() => {
+                                ToastLog(index + "");}}>
+                        <Image style={{flex: 1}}
+                               source={{uri: ApiContant.DOWNLOAD_URL + ds.FileID}}/>
+                    </TouchableHighlight>
+
                 )
             });
             return imageViews;
@@ -115,11 +121,9 @@ export default class HomePage extends React.Component{
 
                         <View style={styles.announceWrapStyle}>
                             <Image style={{width: 60, height: 20}} source={require('./../image/announce.png')}  resizeMode="stretch"/>
-                            <Swiper height={120}
-                                    autoplay={true}
-                                    autoplayTimeout={4}
-                                    loop={true}
-                                    horizontal={false}>
+                            <Swiper height={20}
+                                    horizontal={false}
+                                    autoplay>
                                 <Text>my -------</Text>
                                 <Text>my -fwoefjajf-</Text>
                             </Swiper>
