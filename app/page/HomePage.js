@@ -124,6 +124,60 @@ export default class HomePage extends React.Component{
             return result;
         }
     }
+
+    /**
+     * 切换列表种类
+     * @private
+     */
+    _changeTradeAll(){
+        this.refs.alls.setNativeProps({
+            style:styles.tradeTextActive
+        });
+
+        this.refs.pp.setNativeProps({
+            style:styles.tradeTextInAct
+        });
+
+        this.refs.pe.setNativeProps({
+            style:styles.tradeTextInAct
+        });
+    }
+
+    _changeTradePP(){
+        this.refs.alls.setNativeProps({
+            style:styles.tradeTextInAct
+        });
+
+        this.refs.pp.setNativeProps({
+            style:styles.tradeTextActive
+        });
+
+        this.refs.pe.setNativeProps({
+            style:styles.tradeTextInAct
+        });
+    }
+
+    _changeTradePE(){
+        this.refs.alls.setNativeProps({
+            style:styles.tradeTextInAct
+        });
+
+        this.refs.pp.setNativeProps({
+            style:styles.tradeTextInAct
+        });
+
+        this.refs.pe.setNativeProps({
+            style:styles.tradeTextActive
+        });
+    }
+
+    /**
+     * 更多
+     * @returns {XML}
+     */
+    _changeMore(){
+
+    }
     
     render(){
 
@@ -145,7 +199,7 @@ export default class HomePage extends React.Component{
 
                     <View style={styles.imageWrapperStyle}>
                         {this._renderProject()}
-                        <View style={{height: 2, width: '100%',backgroundColor:"#EBEBEB"}} />
+                        <View style={{height: 1, width: '100%',backgroundColor:"#EBEBEB"}} />
 
                         <View style={styles.announceWrapStyle}>
                             <Image style={{width: 60, height: 20}} source={require('./../image/announce.png')}  resizeMode="stretch"/>
@@ -160,7 +214,19 @@ export default class HomePage extends React.Component{
                         </View>
 
                         <View style={{height: 5, width: '100%',backgroundColor:"#EBEBEB"}} />
+
+                        <View style={styles.listStyle}>
+                            <Image style={{width: 110, height: 40, marginRight: 40}} source={require('./../image/main_trade.png')}  resizeMode="stretch"/>
+                            <Text style={styles.tradeTextActive} onPress={ ()=> {this._changeTradeAll()}} ref="alls">全部</Text>
+                            <Text style={styles.tradeTextInAct} onPress={ ()=> {this._changeTradePP()}} ref="pp">PP</Text>
+                            <Text style={styles.tradeTextInAct} onPress={ ()=> {this._changeTradePE()}} ref="pe">PE</Text>
+                            <Text style={{marginLeft: 15}} onPress={()=> {this._changeMore()}}>更多 ></Text>
+
+                            <View style={{height: 1, width: '100%',backgroundColor:"#EBEBEB"}} />
+                        </View>
+
                     </View>
+
                 </View>
             );
         }
@@ -203,5 +269,26 @@ const styles = StyleSheet.create({
         paddingRight:10,
         paddingTop:15,
         paddingBottom:15,
+    },
+    listStyle:{
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        flexWrap: 'wrap'
+    },
+    tradeTextInAct:{
+        paddingLeft: 15,
+        paddingRight: 15,
+        backgroundColor: 'white',
+        color: '#000'
+    },
+    tradeTextActive:{
+        color: 'white',
+        backgroundColor: '#EA5251',
+        borderRadius: 10,
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingTop: 5,
+        paddingBottom: 5,
     }
 });
