@@ -16,7 +16,8 @@ import ApiContant from './../common/ApiContant'
 import './../common/ToastLog'
 import Spinner from 'react-native-loading-spinner-overlay'
 import HomeModle from './../modle/HomeModle'
-import {PullView} from 'react-native-pull';
+import {PullView} from 'react-native-pull'
+import Utils from '../common/theme'
 
 
 let projectText = ['现货交易', '我的交易', '我的询盘', '交易规则', '化交价格', '化交资讯', '化交报告', '资金详情'];
@@ -40,6 +41,7 @@ export default class HomePage extends React.Component{
             imageViewsData: [],
             noticeData: [],
             dataSource: listData.cloneWithRows([]),
+            detailDataSource: listData.cloneWithRows([]),
         };
       }
 
@@ -77,14 +79,28 @@ export default class HomePage extends React.Component{
             /**
              * 报盘列表
              */
-            HomeModle.getInstance().getListData(-1)
+            this._getListData(-1);
+
+            /**
+             * 成交列表
+             */
+            HomeModle.getInstance().getDetailListData()
                 .then(data => {
-                    ToastLog(JSON.parse(data.DATA) + '');
+                    ToastLog(JSON.parse(data.DATA).list + "");
                     this.setState({
-                        dataSource: listData.cloneWithRows(JSON.parse(data.DATA))
+                        detailDataSource: listData.cloneWithRows(JSON.parse(data.DATA).list)
                     });
                 })
         }
+    }
+
+    _getListData(id){
+        HomeModle.getInstance().getListData(id)
+            .then(data => {
+                this.setState({
+                    dataSource: listData.cloneWithRows(JSON.parse(data.DATA))
+                });
+            });
     }
 
     /**
@@ -164,6 +180,7 @@ export default class HomePage extends React.Component{
         this.refs.pe.setNativeProps({
             style:styles.tradeTextInAct
         });
+        this._getListData(-1);
     }
 
     _changeTradePP(){
@@ -178,6 +195,7 @@ export default class HomePage extends React.Component{
         this.refs.pe.setNativeProps({
             style:styles.tradeTextInAct
         });
+        this._getListData(ApiContant.PP_ID);
     }
 
     _changeTradePE(){
@@ -192,6 +210,7 @@ export default class HomePage extends React.Component{
         this.refs.pe.setNativeProps({
             style:styles.tradeTextActive
         });
+        this._getListData(ApiContant.PE_ID);
     }
 
     /**
@@ -263,6 +282,7 @@ export default class HomePage extends React.Component{
 
                         <ListView
                             dataSource={this.state.dataSource}
+                            enableEmptySections={true}
                             renderRow={(rowData) => {
                             return(
                                 <View style={styles.listWrapper}>
@@ -270,6 +290,24 @@ export default class HomePage extends React.Component{
                                     <View style={styles.listItemWrapper}><Text >{rowData.DeliveryPlace}</Text></View>
                                     <View style={styles.listItemWrapper}><Text style={styles.listItemTextBlue}>{rowData.ResidualWeight + '吨'}</Text></View>
                                     <View style={styles.listItemWrapper}><Text style={styles.listItemTextRed}>{rowData.Price + '元/吨'}</Text></View>
+                                </View>
+                                )
+                            }}
+                        />
+
+                        <View style={{height: 5, width: '100%',backgroundColor:"#EBEBEB"}} />
+                        <Image style={{width: 110, height: 40, marginRight: 40}} source={require('./../image/main_detail.png')}  resizeMode="stretch"/>
+
+                        <ListView
+                            dataSource={this.state.detailDataSource}
+                            enableEmptySections={true}
+                            renderRow={(rowData) => {
+                            return(
+                                <View style={styles.listWrapper}>
+                                    <View style={styles.listItemWrapper}><Text >{rowData.BrandShow}</Text></View>
+                                    <View style={styles.listItemWrapper}><Text >{rowData.DeliveryPlace === undefined ? '-' : rowData.DeliveryPlace}</Text></View>
+                                    <View style={styles.listItemWrapper}><Text style={styles.listItemTextRed}>{rowData.Price + '元/吨'}</Text></View>
+                                    <View style={styles.listItemWrapper}><Text style={styles.listItemTextBlue}>{rowData.FromatCreateTime}</Text></View>
                                 </View>
                                 )
                             }}
@@ -289,6 +327,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'white',
+        marginBottom: Utils.pixToDpSize(150),
     },
     imageWrapperStyle:{
         height:200,
@@ -345,6 +384,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-around',
+        height: 40,
     },
     listItemWrapper:{
         width: '25%',

@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
         height: Utils.pixToDpSize(150),
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
     },
     tab:{
         width: Utils.pixToDpSize(50),

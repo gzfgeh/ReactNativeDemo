@@ -23,6 +23,8 @@
     URL_INFO_DETAIL : "https://inform.shcem.com/Mobile/Index?QuotationID:",
     CATOGOTY_ID : 1895,
     NOTICE_CATOGOTY_ID : 1885,
+    PP_ID: 18,
+    PE_ID: 37,
     
     TOP_NUM : 5,
 
@@ -107,6 +109,7 @@
     SAVE : "Save",
     GETFEE : "GetFee",
     PAY : "Pay",
+    GET_ORDER_HOME_LIST: "GetOrderHomeList",
 };
 
 module.exports = ApiContant;

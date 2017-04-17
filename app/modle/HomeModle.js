@@ -52,10 +52,7 @@ export default class HomeModle {
      */
     async getListData(id){
         let result;
-        
-        let ids = [];
-        if (id !== -1)
-            ids.add(id);
+
         
         let params = {
             KeyWords: "",
@@ -70,17 +67,51 @@ export default class HomeModle {
             GoodsType: -1,
             SettlementMethod: -1,
             SourcePlaceType: -1,
-            DeliveryScopeIds: ids,
+            DeliveryScopeIds: [],
             ProductID: '',
             CategoryParentID: 0,
             TOP: ''
         };
+
+        if (id !== -1){
+            params.CategorySpecialIds[0] = id;
+        }
 
 
         let requestJson = new RequestToJson().init()
             .setParams(params)
             .setServiceName(ApiContant.ILEADS_SERVICE)
             .setMethodName(ApiContant.GET_LEADS_LIST)
+            .build();
+
+        try{
+            result = await FetchUtil.getInstance().init()
+                .setBody(requestJson)
+                .dofetch();
+        }catch (err){
+            ToastAndroid.show(JSON.parse(err).DATA, ToastAndroid.SHORT);
+        }
+        return result;
+    }
+
+
+    /**
+     * 得到成交数据
+     */
+    async getDetailListData(){
+        let result;
+
+        let params = {
+            KeyWords: "",
+            PageIndex: 1,
+            PageSize: 5,
+        };
+
+
+        let requestJson = new RequestToJson().init()
+            .setParams(params)
+            .setServiceName(ApiContant.IORDER_SERVICE)
+            .setMethodName(ApiContant.GET_ORDER_HOME_LIST)
             .build();
 
         try{
