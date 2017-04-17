@@ -32,7 +32,8 @@ export default class HomePage extends React.Component{
         // 初始状态
         this.state = {
             loaded: false,
-            imageViewsData: []
+            imageViewsData: [],
+            noticeData: [],
         };
       }
 
@@ -42,7 +43,7 @@ export default class HomePage extends React.Component{
      */
     componentWillMount(){
         if (!this.state.loaded) {
-            HomeModle.getInstance().getTopInformList()
+            HomeModle.getInstance().getTopInformList(ApiContant.CATOGOTY_ID)
                 .then(data => {
                     this.setState({
                         imageViewsData: JSON.parse(data.DATA)
@@ -51,6 +52,13 @@ export default class HomePage extends React.Component{
                 .finally(() => {
                     this.setState({
                         loaded: true
+                    });
+                });
+
+            HomeModle.getInstance().getTopInformList(ApiContant.NOTICE_CATOGOTY_ID)
+                .then(data => {
+                    this.setState({
+                        noticeData: JSON.parse(data.DATA)
                     });
                 });
         }
@@ -96,6 +104,26 @@ export default class HomePage extends React.Component{
         }
         return project;
     }
+
+
+    /**
+     * 渲染 notice UI
+     * @private
+     */
+    _renderNoticeText(){
+        let result = [];
+        if (this.state.loaded){
+            Array.from(this.state.noticeData).map((ds, index) => {
+                result.push(
+                    <Text style={{flex: 1}}
+                           key={index}>
+                        {ds.InfoTitle}</Text>
+
+                )
+            });
+            return result;
+        }
+    }
     
     render(){
 
@@ -122,19 +150,17 @@ export default class HomePage extends React.Component{
                         <View style={styles.announceWrapStyle}>
                             <Image style={{width: 60, height: 20}} source={require('./../image/announce.png')}  resizeMode="stretch"/>
                             <Swiper height={20}
+                                    width={240}
                                     horizontal={false}
-                                    autoplay>
-                                <Text>my -------</Text>
-                                <Text>my -fwoefjajf-</Text>
+                                    autoplay={true}
+                                    showsPagination={false}>
+                                {this._renderNoticeText()}
                             </Swiper>
                             <Image style={{width: 15, height: 15}} source={require('./../image/turn_right.png')}  resizeMode="stretch"/>
                         </View>
 
                         <View style={{height: 5, width: '100%',backgroundColor:"#EBEBEB"}} />
                     </View>
-
-
-
                 </View>
             );
         }

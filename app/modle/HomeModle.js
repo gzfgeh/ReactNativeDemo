@@ -20,13 +20,13 @@ export default class HomeModle {
     /**
      * 得到无限轮播图的 数据
      */
-    async getTopInformList(){
+    async getTopInformList(id){
         let result;
 
         let params = {
             ProductID: 0,
             AppTypeID: 0,
-            CatogoryID: ApiContant.CATOGOTY_ID,
+            CatogoryID: id,
             Top: ApiContant.TOP_NUM,
         };
 
