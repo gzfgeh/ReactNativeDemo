@@ -8,13 +8,15 @@ import {
     View,
     Text,
     Image,
-    TouchableHighlight} from 'react-native'
+    TouchableHighlight,
+    ListView} from 'react-native'
 
 import Swiper from 'react-native-swiper'
 import ApiContant from './../common/ApiContant'
 import './../common/ToastLog'
 import Spinner from 'react-native-loading-spinner-overlay'
 import HomeModle from './../modle/HomeModle'
+import {PullView} from 'react-native-pull';
 
 
 let projectText = ['现货交易', '我的交易', '我的询盘', '交易规则', '化交价格', '化交资讯', '化交报告', '资金详情'];
@@ -25,15 +27,19 @@ let projectImage = [
     require('./../image/list_7.png'), require('./../image/list_8.png')
 ];
 
+const listData = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
 export default class HomePage extends React.Component{
     // 构造
       constructor(props) {
         super(props);
+
         // 初始状态
         this.state = {
             loaded: false,
             imageViewsData: [],
             noticeData: [],
+            dataSource: listData.cloneWithRows([]),
         };
       }
 
@@ -43,24 +49,41 @@ export default class HomePage extends React.Component{
      */
     componentWillMount(){
         if (!this.state.loaded) {
+            /**
+             * 轮播图
+             */
             HomeModle.getInstance().getTopInformList(ApiContant.CATOGOTY_ID)
                 .then(data => {
                     this.setState({
                         imageViewsData: JSON.parse(data.DATA)
                     });
-                })
-                .finally(() => {
-                    this.setState({
-                        loaded: true
-                    });
                 });
 
+            /**
+             * 公告
+             */
             HomeModle.getInstance().getTopInformList(ApiContant.NOTICE_CATOGOTY_ID)
                 .then(data => {
                     this.setState({
                         noticeData: JSON.parse(data.DATA)
                     });
+                })
+                .finally(() => {
+                this.setState({
+                    loaded: true
                 });
+            });
+
+            /**
+             * 报盘列表
+             */
+            HomeModle.getInstance().getListData(-1)
+                .then(data => {
+                    ToastLog(JSON.parse(data.DATA) + '');
+                    this.setState({
+                        dataSource: listData.cloneWithRows(JSON.parse(data.DATA))
+                    });
+                })
         }
     }
 
@@ -178,7 +201,17 @@ export default class HomePage extends React.Component{
     _changeMore(){
 
     }
-    
+
+    /**
+     *
+     * @returns {XML}
+     */
+    _onPullRelease(){
+        ToastLog("_onPullRelease")
+    }
+
+
+
     render(){
 
         if (!this.state.loaded){
@@ -190,6 +223,7 @@ export default class HomePage extends React.Component{
         }else{
             return(
                 <View style={styles.container}>
+                    <PullView style={{flex: 1}}>
                     <Swiper height={150}
                             paginationStyle={{bottom:10}}
                             autoplay={true}
@@ -202,17 +236,18 @@ export default class HomePage extends React.Component{
                         <View style={{height: 1, width: '100%',backgroundColor:"#EBEBEB"}} />
 
                         <View style={styles.announceWrapStyle}>
-                            <Image style={{width: 60, height: 20}} source={require('./../image/announce.png')}  resizeMode="stretch"/>
+                            <Image style={{width: 60, height: 20, marginRight:10}} source={require('./../image/announce.png')}  resizeMode="stretch"/>
                             <Swiper height={20}
-                                    width={240}
+                                    width={260}
                                     horizontal={false}
                                     autoplay={true}
                                     showsPagination={false}>
                                 {this._renderNoticeText()}
                             </Swiper>
-                            <Image style={{width: 15, height: 15}} source={require('./../image/turn_right.png')}  resizeMode="stretch"/>
                         </View>
+                    </View>
 
+                    <View>
                         <View style={{height: 5, width: '100%',backgroundColor:"#EBEBEB"}} />
 
                         <View style={styles.listStyle}>
@@ -224,9 +259,23 @@ export default class HomePage extends React.Component{
 
                             <View style={{height: 1, width: '100%',backgroundColor:"#EBEBEB"}} />
                         </View>
-
                     </View>
 
+                        <ListView
+                            dataSource={this.state.dataSource}
+                            renderRow={(rowData) => {
+                            return(
+                                <View style={styles.listWrapper}>
+                                    <View style={styles.listItemWrapper}><Text >{rowData.BrandShow}</Text></View>
+                                    <View style={styles.listItemWrapper}><Text >{rowData.DeliveryPlace}</Text></View>
+                                    <View style={styles.listItemWrapper}><Text style={styles.listItemTextBlue}>{rowData.ResidualWeight + '吨'}</Text></View>
+                                    <View style={styles.listItemWrapper}><Text style={styles.listItemTextRed}>{rowData.Price + '元/吨'}</Text></View>
+                                </View>
+                                )
+                            }}
+                        />
+
+                    </PullView>
                 </View>
             );
         }
@@ -262,13 +311,13 @@ const styles = StyleSheet.create({
     },
     announceWrapStyle:{
         width:'100%',
+        height: 20,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         paddingLeft:20,
         paddingRight:10,
-        paddingTop:15,
-        paddingBottom:15,
+        marginTop:10
     },
     listStyle:{
         width: '100%',
@@ -290,5 +339,23 @@ const styles = StyleSheet.create({
         paddingRight: 10,
         paddingTop: 5,
         paddingBottom: 5,
+    },
+    listWrapper:{
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+    },
+    listItemWrapper:{
+        width: '25%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 10
+    },
+    listItemTextBlue:{
+        color: '#45a162',
+    },
+    listItemTextRed:{
+        color: '#c84a4a',
     }
 });

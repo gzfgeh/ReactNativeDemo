@@ -47,6 +47,52 @@ export default class HomeModle {
         return result;
     }
 
+    /**
+     * 得到报盘数据
+     */
+    async getListData(id){
+        let result;
+        
+        let ids = [];
+        if (id !== -1)
+            ids.add(id);
+        
+        let params = {
+            KeyWords: "",
+            LeadsStatusList: [],
+            PageIndex: 1,
+            PageSize: 5,
+            OrderBy: 1,
+            SortDirect: 1,
+            CategorySpecialIds: [],
+            SourcePlaceIds: [],
+            DeliveryPlaceIds: [],
+            GoodsType: -1,
+            SettlementMethod: -1,
+            SourcePlaceType: -1,
+            DeliveryScopeIds: ids,
+            ProductID: '',
+            CategoryParentID: 0,
+            TOP: ''
+        };
+
+
+        let requestJson = new RequestToJson().init()
+            .setParams(params)
+            .setServiceName(ApiContant.ILEADS_SERVICE)
+            .setMethodName(ApiContant.GET_LEADS_LIST)
+            .build();
+
+        try{
+            result = await FetchUtil.getInstance().init()
+                .setBody(requestJson)
+                .dofetch();
+        }catch (err){
+            ToastAndroid.show(JSON.parse(err).DATA, ToastAndroid.SHORT);
+        }
+        return result;
+    }
+
 
 
 }
