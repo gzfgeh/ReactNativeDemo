@@ -3,7 +3,7 @@
  */
 
 import React from 'react'
-import {PixelRatio, Dimensions} from 'react-native'
+import {PixelRatio, Dimensions, Platform} from 'react-native'
 
 var screenWidth = Dimensions.get('window').width;
 var screenHeight = Dimensions.get('window').height;
@@ -41,9 +41,20 @@ function pixToDpSize(uiPxSize) {
     return uiPxSize;
 }
 
+const btnActiveOpacity = 0.7;
+
+const actionBar = {
+    height: (Platform.OS === 'android') ? pixToDpSize(150) : pixToDpSize(160),
+    backgroundColor: 'rgb(22,131,251)',
+    fontSize: pixToDpSize(50),
+    fontColor: 'white'
+}
+
 module.exports = {
     screenWidth,
     screenHeight,
     pixToSp,
     pixToDpSize,
+    btnActiveOpacity,
+    actionBar,
 };

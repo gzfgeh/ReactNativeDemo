@@ -18,6 +18,7 @@ import Spinner from 'react-native-loading-spinner-overlay'
 import HomeModle from './../modle/HomeModle'
 import {PullView} from 'react-native-pull'
 import Utils from '../common/theme'
+import WebViewPage from './WebViewPage'
 
 
 let projectText = ['现货交易', '我的交易', '我的询盘', '交易规则', '化交价格', '化交资讯', '化交报告', '资金详情'];
@@ -115,7 +116,9 @@ export default class HomePage extends React.Component{
                 imageViews.push(
                     <TouchableHighlight style={{flex: 1}} key={index}
                                 onPress = {() => {
-                                ToastLog(index + "");}}>
+                                ToastLog(index + "");
+                                this.props.navigator.push({component: WebViewPage,
+                                                            args: {url: ds.InfoLinkId}})}}>
                         <Image style={{flex: 1}}
                                source={{uri: ApiContant.DOWNLOAD_URL + ds.FileID}}/>
                     </TouchableHighlight>
