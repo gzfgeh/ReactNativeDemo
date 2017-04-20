@@ -10,8 +10,11 @@ import {
     View,
     Image,
     ScrollView,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
+    Text
 } from 'react-native'
+
+import Swiper from 'react-native-swiper'
 
 import Navigation from './Navigation'
 import Utils from '../common/theme'
@@ -33,24 +36,28 @@ export default class LaunchPage extends React.Component{
             }
         })
         
-        this.props.navigator.push({component: Navigation, navigator: this.props.navigator});
+        //this.props.navigator.push({component: Navigation, navigator: this.props.navigator});
+    }
+
+    _onMomentumScrollEnd(){
+        ToastLog("-------");
     }
 
     render(){
         return(
-            <ScrollView contentContainerStyle={styles.contentContainer}
-                        bounces={false}
-                        pagingEnabled={true}
-                        horizontal={true}
-                        showsHorizontalScrollIndicator={false}
-                        >
+            <Swiper
+                paginationStyle={{bottom: 50}}
+                loop={false}
+                onResponderRelease={this._onMomentumScrollEnd()}>
                 <Image source={image1} style={styles.backgroundImage} />
                 <Image source={image2} style={styles.backgroundImage} />
-                <TouchableWithoutFeedback onPress={() => this._endLaunchPage()}>
+                <View>
+                <Text>skdfkkd</Text>
+                <TouchableWithoutFeedback >
                     <Image source={image3} style={styles.backgroundImage} />
                 </TouchableWithoutFeedback>
-
-            </ScrollView>
+                </View>
+            </Swiper>
         );
     }
 }
