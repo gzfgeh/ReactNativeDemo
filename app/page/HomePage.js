@@ -9,12 +9,12 @@ import {
     Text,
     Image,
     TouchableHighlight,
-    ListView} from 'react-native'
+    ListView,
+    FlatList} from 'react-native'
 
 import Swiper from 'react-native-swiper'
 import ApiContant from './../common/ApiContant'
 import './../common/ToastLog'
-import Spinner from 'react-native-loading-spinner-overlay'
 import HomeModle from './../modle/HomeModle'
 import {PullView} from 'react-native-pull'
 import Utils from '../common/theme'
@@ -30,8 +30,6 @@ let projectImage = [
     require('./../image/list_7.png'), require('./../image/list_8.png')
 ];
 
-const listData = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
 export default class HomePage extends React.Component{
     // 构造
       constructor(props) {
@@ -42,8 +40,8 @@ export default class HomePage extends React.Component{
             loaded: false,
             imageViewsData: [],
             noticeData: [],
-            dataSource: listData.cloneWithRows([]),
-            detailDataSource: listData.cloneWithRows([]),
+            dataSource: [],
+            detailDataSource: [],
         };
       }
 
@@ -73,10 +71,10 @@ export default class HomePage extends React.Component{
                     });
                 })
                 .finally(() => {
-                this.setState({
-                    loaded: true
+                    if (!this.state.loaded){
+                        this.setState({loaded: true});
+                    }
                 });
-            });
 
             /**
              * 报盘列表
@@ -88,19 +86,23 @@ export default class HomePage extends React.Component{
              */
             HomeModle.getInstance().getDetailListData()
                 .then(data => {
-                    ToastLog(JSON.parse(data.DATA).list + "");
                     this.setState({
-                        detailDataSource: listData.cloneWithRows(JSON.parse(data.DATA).list)
+                        detailDataSource: JSON.parse(data.DATA).list
                     });
                 })
         }
     }
 
+    /**
+     * Array.from(JSON.parse(data.DATA),
+     (item, index)=> {item.key = index})
+     * 报盘列表
+     */
     _getListData(id){
         HomeModle.getInstance().getListData(id)
             .then(data => {
                 this.setState({
-                    dataSource: listData.cloneWithRows(JSON.parse(data.DATA))
+                    dataSource: JSON.parse(data.DATA)
                 });
             });
     }
@@ -226,12 +228,6 @@ export default class HomePage extends React.Component{
     }
 
     /**
-     *
-     *
-     * <Spinner visible={true}
-     cancelable={true}
-     color='blue'/>
-     * @returns {XML}
      */
     _onPullRelease(){
         ToastLog("_onPullRelease")
@@ -286,16 +282,15 @@ export default class HomePage extends React.Component{
                         </View>
                     </View>
 
-                        <ListView
-                            dataSource={this.state.dataSource}
-                            enableEmptySections={true}
-                            renderRow={(rowData) => {
+                        <FlatList
+                            data={this.state.dataSource}
+                            renderItem={({item}) => {
                             return(
                                 <View style={styles.listWrapper}>
-                                    <View style={styles.listItemWrapper}><Text >{rowData.BrandShow}</Text></View>
-                                    <View style={styles.listItemWrapper}><Text >{rowData.DeliveryPlace}</Text></View>
-                                    <View style={styles.listItemWrapper}><Text style={styles.listItemTextBlue}>{rowData.ResidualWeight + '吨'}</Text></View>
-                                    <View style={styles.listItemWrapper}><Text style={styles.listItemTextRed}>{rowData.Price + '元/吨'}</Text></View>
+                                    <View style={styles.listItemWrapper}><Text >{item.BrandShow}</Text></View>
+                                    <View style={styles.listItemWrapper}><Text >{item.DeliveryPlace === undefined ? '-' : item.DeliveryPlace}</Text></View>
+                                    <View style={styles.listItemWrapper}><Text style={styles.listItemTextBlue}>{item.ResidualWeight + '吨'}</Text></View>
+                                    <View style={styles.listItemWrapper}><Text style={styles.listItemTextRed}>{item.Price + '元/吨'}</Text></View>
                                 </View>
                                 )
                             }}
@@ -304,16 +299,15 @@ export default class HomePage extends React.Component{
                         <View style={{height: 5, width: '100%',backgroundColor:"#EBEBEB"}} />
                         <Image style={{width: 110, height: 40, marginRight: 40}} source={require('./../image/main_detail.png')}  resizeMode="stretch"/>
 
-                        <ListView
-                            dataSource={this.state.detailDataSource}
-                            enableEmptySections={true}
-                            renderRow={(rowData) => {
+                        <FlatList
+                            data={this.state.detailDataSource}
+                            renderItem={({item}) => {
                             return(
                                 <View style={styles.listWrapper}>
-                                    <View style={styles.listItemWrapper}><Text >{rowData.BrandShow}</Text></View>
-                                    <View style={styles.listItemWrapper}><Text >{rowData.DeliveryPlace === undefined ? '-' : rowData.DeliveryPlace}</Text></View>
-                                    <View style={styles.listItemWrapper}><Text style={styles.listItemTextRed}>{rowData.Price + '元/吨'}</Text></View>
-                                    <View style={styles.listItemWrapper}><Text style={styles.listItemTextBlue}>{rowData.FromatCreateTime}</Text></View>
+                                    <View style={styles.listItemWrapper}><Text >{item.BrandShow}</Text></View>
+                                    <View style={styles.listItemWrapper}><Text >{item.DeliveryPlace === undefined ? '-' : item.DeliveryPlace}</Text></View>
+                                    <View style={styles.listItemWrapper}><Text style={styles.listItemTextRed}>{item.Price + '元/吨'}</Text></View>
+                                    <View style={styles.listItemWrapper}><Text style={styles.listItemTextBlue}>{item.FromatCreateTime}</Text></View>
                                 </View>
                                 )
                             }}

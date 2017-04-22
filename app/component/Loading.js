@@ -18,7 +18,9 @@ export default class Loading extends Component {
                 visible={true}
                 onRequestClose={()=>{}}>
                 <View style={styles.loadingBox}>
-                    <ActivityIndicator size="large" />
+                    <ActivityIndicator
+                        size="large"
+                        color="red"/>
                 </View>
             </Modal>
         );
