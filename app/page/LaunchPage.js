@@ -15,6 +15,7 @@ import {
 } from 'react-native'
 
 import Swiper from 'react-native-swiper'
+import Button from './../component/Button'
 
 import Navigation from './Navigation'
 import Utils from '../common/theme'
@@ -34,28 +35,24 @@ export default class LaunchPage extends React.Component{
             rawData:{
                 isComeOver:true
             }
-        })
-        
-        //this.props.navigator.push({component: Navigation, navigator: this.props.navigator});
-    }
-
-    _onMomentumScrollEnd(){
-        ToastLog("-------");
+        });
+        //不能用push,要重置路由栈
+        this.props.navigator.resetTo({component: Navigation, navigator: this.props.navigator});
     }
 
     render(){
         return(
             <Swiper
+                style={{flex: 1}}
                 paginationStyle={{bottom: 50}}
-                loop={false}
-                onResponderRelease={this._onMomentumScrollEnd()}>
-                <Image source={image1} style={styles.backgroundImage} />
-                <Image source={image2} style={styles.backgroundImage} />
-                <View>
-                <Text>skdfkkd</Text>
-                <TouchableWithoutFeedback >
-                    <Image source={image3} style={styles.backgroundImage} />
-                </TouchableWithoutFeedback>
+                loop={false}>
+                <Image source={image1} style={styles.itemStyle} resizeMode='stretch'/>
+                <Image source={image2} style={styles.itemStyle} resizeMode='stretch'/>
+                <View style={styles.itemStyle}>
+                    <Image source={image3} style={styles.itemStyle} resizeMode='stretch'/>
+                    <View style={styles.buttonStyle}>
+                        <Button text="立即登录" onPress={()=>this._endLaunchPage()}/>
+                    </View>
                 </View>
             </Swiper>
         );
@@ -63,12 +60,13 @@ export default class LaunchPage extends React.Component{
 }
 
 var styles = StyleSheet.create({
-    contentContainer: {
-        width: Utils.screenWidth*3,
+    itemStyle: {
         height: Utils.screenHeight,
+        width: Utils.screenWidth
     },
-    backgroundImage: {
-        width: Utils.screenWidth,
-        height: Utils.screenHeight,
-    },
+    buttonStyle:{
+        position:'absolute',
+        bottom:Utils.screenHeight/6,
+        left:Utils.screenWidth*7/20,
+    }
 });

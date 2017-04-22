@@ -48,7 +48,7 @@ export default class MainPage extends React.Component{
     /**
      * 设置定时器加载SplashScreen页面
      */
-    componentDidMount(){
+    componentWillMount(){
         this._inquireData();
         this.timer = setTimeout(()=>{
             this.setState({
