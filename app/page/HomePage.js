@@ -19,6 +19,7 @@ import HomeModle from './../modle/HomeModle'
 import {PullView} from 'react-native-pull'
 import Utils from '../common/theme'
 import WebViewPage from './WebViewPage'
+import Loading from './../component/Loading'
 
 
 let projectText = ['现货交易', '我的交易', '我的询盘', '交易规则', '化交价格', '化交资讯', '化交报告', '资金详情'];
@@ -226,6 +227,10 @@ export default class HomePage extends React.Component{
 
     /**
      *
+     *
+     * <Spinner visible={true}
+     cancelable={true}
+     color='blue'/>
      * @returns {XML}
      */
     _onPullRelease(){
@@ -238,9 +243,7 @@ export default class HomePage extends React.Component{
 
         if (!this.state.loaded){
             return(
-                <Spinner visible={true}
-                        cancelable={true}
-                        color='blue'/>
+                <Loading />
                 );
         }else{
             return(
