@@ -119,7 +119,6 @@ export default class HomePage extends React.Component{
                 imageViews.push(
                     <TouchableHighlight style={{flex: 1}} key={index}
                                 onPress = {() => {
-                                ToastLog(index + "");
                                 this.props.navigator.push({component: WebViewPage,
                                                             args: {url: ds.InfoLinkId}})}}>
                         <Image style={{flex: 1}}
@@ -228,9 +227,10 @@ export default class HomePage extends React.Component{
     }
 
     /**
+     * 报盘 item 点击事件
      */
-    _onPullRelease(){
-        ToastLog("_onPullRelease")
+    _onOrderListItemPress(item){
+        ToastLog("item")
     }
 
 
@@ -287,12 +287,16 @@ export default class HomePage extends React.Component{
                             keyExtractor={(item, index) => {return index}}
                             renderItem={({item}) => {
                             return(
-                                <View style={styles.listWrapper}>
-                                    <View style={styles.listItemWrapper}><Text >{item.BrandShow}</Text></View>
-                                    <View style={styles.listItemWrapper}><Text >{item.DeliveryPlace === undefined ? '-' : item.DeliveryPlace}</Text></View>
-                                    <View style={styles.listItemWrapper}><Text style={styles.listItemTextBlue}>{item.ResidualWeight + '吨'}</Text></View>
-                                    <View style={styles.listItemWrapper}><Text style={styles.listItemTextRed}>{item.Price + '元/吨'}</Text></View>
-                                </View>
+                                <TouchableHighlight
+                                        underlayColor="rgba(34, 26, 38, 0.1)"
+                                        onPress={()=> {this._onOrderListItemPress(item)}}>
+                                    <View style={styles.listWrapper}>
+                                        <View style={styles.listItemWrapper}><Text >{item.BrandShow}</Text></View>
+                                        <View style={styles.listItemWrapper}><Text >{item.DeliveryPlace === undefined ? '-' : item.DeliveryPlace}</Text></View>
+                                        <View style={styles.listItemWrapper}><Text style={styles.listItemTextBlue}>{item.ResidualWeight + '吨'}</Text></View>
+                                        <View style={styles.listItemWrapper}><Text style={styles.listItemTextRed}>{item.Price + '元/吨'}</Text></View>
+                                    </View>
+                                </TouchableHighlight>
                                 )
                             }}
                         />
