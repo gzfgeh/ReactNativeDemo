@@ -284,6 +284,7 @@ export default class HomePage extends React.Component{
 
                         <FlatList
                             data={this.state.dataSource}
+                            keyExtractor={(item, index) => {return index}}
                             renderItem={({item}) => {
                             return(
                                 <View style={styles.listWrapper}>
@@ -301,6 +302,7 @@ export default class HomePage extends React.Component{
 
                         <FlatList
                             data={this.state.detailDataSource}
+                            keyExtractor={(item, index) => {return index}}
                             renderItem={({item}) => {
                             return(
                                 <View style={styles.listWrapper}>
