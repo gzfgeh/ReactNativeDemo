@@ -296,7 +296,6 @@ export default class HomePage extends React.Component{
                                 )
                             }}
                         />
-
                         <View style={{height: 5, width: '100%',backgroundColor:"#EBEBEB"}} />
                         <Image style={{width: 110, height: 40, marginRight: 40}} source={require('./../image/main_detail.png')}  resizeMode="stretch"/>
 
