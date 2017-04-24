@@ -9,8 +9,8 @@ import {
     Text,
     Image,
     TouchableHighlight,
-    ListView,
-    FlatList} from 'react-native'
+    FlatList,
+    RefreshControl} from 'react-native'
 
 import Swiper from 'react-native-swiper'
 import ApiContant from './../common/ApiContant'
@@ -42,6 +42,8 @@ export default class HomePage extends React.Component{
             noticeData: [],
             dataSource: [],
             detailDataSource: [],
+            refreshing: false,
+            isPushOk: false,
         };
       }
 
@@ -51,46 +53,55 @@ export default class HomePage extends React.Component{
      */
     componentWillMount(){
         if (!this.state.loaded) {
-            /**
-             * 轮播图
-             */
-            HomeModle.getInstance().getTopInformList(ApiContant.CATOGOTY_ID)
-                .then(data => {
-                    this.setState({
-                        imageViewsData: JSON.parse(data.DATA)
-                    });
-                });
-
-            /**
-             * 公告
-             */
-            HomeModle.getInstance().getTopInformList(ApiContant.NOTICE_CATOGOTY_ID)
-                .then(data => {
-                    this.setState({
-                        noticeData: JSON.parse(data.DATA)
-                    });
-                })
-                .finally(() => {
-                    if (!this.state.loaded){
-                        this.setState({loaded: true});
-                    }
-                });
-
-            /**
-             * 报盘列表
-             */
-            this._getListData(-1);
-
-            /**
-             * 成交列表
-             */
-            HomeModle.getInstance().getDetailListData()
-                .then(data => {
-                    this.setState({
-                        detailDataSource: JSON.parse(data.DATA).list
-                    });
-                })
+            this._getNetWorkData();
         }
+    }
+
+    /**
+     * 请求网络数据
+     */
+    _getNetWorkData(resolve){
+        /**
+         * 轮播图
+         */
+        HomeModle.getInstance().getTopInformList(ApiContant.CATOGOTY_ID)
+            .then(data => {
+                this.setState({
+                    imageViewsData: JSON.parse(data.DATA)
+                });
+            });
+
+        /**
+         * 公告
+         */
+        HomeModle.getInstance().getTopInformList(ApiContant.NOTICE_CATOGOTY_ID)
+            .then(data => {
+                this.setState({
+                    noticeData: JSON.parse(data.DATA)
+                });
+            })
+            .finally(() => {
+                if (!this.state.loaded){
+                    this.setState({loaded: true});
+                }
+            });
+
+        /**
+         * 报盘列表
+         */
+        this._getListData(-1);
+
+        /**
+         * 成交列表
+         */
+        HomeModle.getInstance().getDetailListData()
+            .then(data => {
+                this.setState({
+                    detailDataSource: JSON.parse(data.DATA).list
+                });
+                if (resolve != null)
+                    resolve();
+            })
     }
 
     /**
@@ -233,7 +244,52 @@ export default class HomePage extends React.Component{
         ToastLog("item")
     }
 
+    /**
+     * 下拉刷新
+     * @param resolve
+     */
+    _onPullRelease(resolve) {
+        // //do something
+        setTimeout(() => {
 
+            resolve();
+        }, 10000);
+
+        // this._getNetWorkData(resolve);
+    }
+
+    /**
+     * 下拉头
+     * @returns {XML}
+     */
+    _topIndicatorRender(pulling, pullok, pullrelease, position) {
+        return (
+            <View style={{flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 90,
+                backgroundColor:'red'}}>
+                <Text>After Push up!</Text>
+            </View>
+        );
+
+
+    }
+
+    /**
+     * 正在刷新状态
+     * @param position
+     * @returns {boolean}
+     * @private
+     */
+    _onPushing(position) {
+        if (!this.state.isPushOk) {
+            this.setState({isPushOk: true});
+            return false;
+        }
+        return true;
+    }
 
     render(){
 
@@ -244,7 +300,9 @@ export default class HomePage extends React.Component{
         }else{
             return(
                 <View style={styles.container}>
-                    <PullView style={{flex: 1}}>
+                    <PullView
+                        style={{flex: 1}}
+                        onPullRelease={this._onPullRelease}>
                     <Swiper height={150}
                             paginationStyle={{bottom:10}}
                             autoplay={true}
