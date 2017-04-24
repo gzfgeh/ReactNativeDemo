@@ -21,7 +21,6 @@ import './../common/ToastLog'
 export default class MyPage extends Component {
 
     _goToLogin(){
-        ToastLog("ddddd");
         this.props.navigator.push({component: LoginPage})
     }
 
@@ -95,7 +94,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f0f1f5',
     },
     titleLayout:{
-        height:44,
+        height:Utils.actionBar.height,
         flexDirection: 'column',
         backgroundColor: '#ea5251',
     },
