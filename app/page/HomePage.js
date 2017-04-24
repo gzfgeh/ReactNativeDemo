@@ -315,9 +315,9 @@ export default class HomePage extends React.Component{
                         <View style={{height: 1, width: '100%',backgroundColor:"#EBEBEB"}} />
 
                         <View style={styles.announceWrapStyle}>
-                            <Image style={{width: 60, height: 20, marginRight:10}} source={require('./../image/announce.png')}  resizeMode="stretch"/>
+                            <Image style={{width: 60, height: 20, marginRight:Utils.pixToDpSize(20)}} source={require('./../image/announce.png')}  resizeMode="stretch"/>
                             <Swiper height={20}
-                                    width={260}
+                                    width={310}
                                     horizontal={false}
                                     autoplay={true}
                                     showsPagination={false}>
@@ -346,7 +346,7 @@ export default class HomePage extends React.Component{
                             renderItem={({item}) => {
                             return(
                                 <TouchableHighlight
-                                        underlayColor="rgba(34, 26, 38, 0.1)"
+                                        underlayColor={Utils.underClickColor}
                                         onPress={()=> {this._onOrderListItemPress(item)}}>
                                     <View style={styles.listWrapper}>
                                         <View style={styles.listItemWrapper}><Text >{item.BrandShow}</Text></View>
@@ -393,23 +393,22 @@ const styles = StyleSheet.create({
         marginBottom: Utils.pixToDpSize(150),
     },
     imageWrapperStyle:{
-        height:200,
+        height:250,
         width: '100%',
         flexDirection: 'row',
         flexWrap: 'wrap',
     },
     imageStyle:{
-        height: '30%',
+        height: '35%',
         width: '25%',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 10,
         marginTop: 10
     },
     imageStyleView:{
-        height: '75%',
-        width: '50%',
+        height: '60%',
+        width: '52%',
     },
     announceWrapStyle:{
         width:'100%',
@@ -419,7 +418,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingLeft:20,
         paddingRight:10,
-        marginTop:10
+        marginTop:20
     },
     listStyle:{
         width: '100%',

@@ -42,6 +42,7 @@ function pixToDpSize(uiPxSize) {
 }
 
 const btnActiveOpacity = 0.7;
+const underClickColor = "rgba(34, 26, 38, 0.1)";
 
 const actionBar = {
     height: (Platform.OS === 'android') ? pixToDpSize(150) : pixToDpSize(160),
@@ -57,4 +58,5 @@ module.exports = {
     pixToDpSize,
     btnActiveOpacity,
     actionBar,
+    underClickColor,
 };
