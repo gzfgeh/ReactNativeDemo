@@ -8,13 +8,61 @@ import {
     Text,
     Image,
     TextInput,
-    TouchableHighlight} from 'react-native'
+    TouchableHighlight,
+    Animated,
+    DeviceEventEmitter,
+    ScrollView} from 'react-native'
 import BasePage from './BasePage'
 import NavigationBar from './../component/SimpleNavigationBar'
 import Utils from './../common/theme'
-import Button from './../component/Button'
+import './../common/ToastLog'
 
 export default class LoginPage extends BasePage{
+    constructor(props){
+        super(props);
+        this.state = {
+            logoHeight: '25%',
+            isShowKeyboard:false,
+        }
+    }
+
+    /**
+     * input 获取焦点
+     * @private
+     */
+    _onFocus(){
+        ToastLog("111")
+        setTimeout(()=> {
+            if (!this.state.isShowKeyboard){
+                this.refs.logo.setNativeProps({
+                    style: {height: '5%'}
+                })
+            }
+        }, 100);
+        this.setState({
+            isShowKeyboard: false
+        });
+
+    }
+
+    /**
+     * input 失去焦点
+     * @private
+     */
+    _onBlur(){
+        ToastLog("333")
+        setTimeout(()=> {
+            if (this.state.isShowKeyboard){
+                this.refs.logo.setNativeProps({
+                    style: {height: '25%'}
+                })
+            }
+        }, 100);
+        this.setState({
+            isShowKeyboard: true
+        });
+    }
+
     render(){
         return(
             <View style={styles.container}>
@@ -22,7 +70,8 @@ export default class LoginPage extends BasePage{
                     backOnPress={this._handleBack.bind(this)}/>
                 <Image style={styles.logoStyle}
                        source={require('./../image/msg.png')}
-                       resizeMode="contain"/>
+                       resizeMode="contain"
+                       ref="logo"/>
                 <View style={{height: 1, width: '100%',backgroundColor:Utils.dividerBgColor}} />
 
                 <View style={styles.inputWrap}>
@@ -33,9 +82,11 @@ export default class LoginPage extends BasePage{
                     <TextInput style={styles.input}
                         placeholder='请输入手机号'
                         numberOfLines={1}
-                        secureTextEntry={true}
                         underlineColorAndroid={'transparent'}
-                        />
+                        keyboardType={'numeric'}
+                        maxLength={11}
+                        onFocus={()=> {this._onFocus()}}
+                        onBlur={()=> {this._onBlur()}}/>
                 </View>
 
                 <View style={{height: 2, width: '100%',backgroundColor:Utils.dividerBgColor}} />
@@ -50,7 +101,8 @@ export default class LoginPage extends BasePage{
                                numberOfLines={1}
                                secureTextEntry={true}
                                underlineColorAndroid={'transparent'}
-                    />
+                               onFocus={()=> {this._onFocus()}}
+                               onBlur={()=> {this._onBlur()}}/>
                 </View>
 
                 <View style={{height: 2, width: '100%',backgroundColor:Utils.dividerBgColor}} />
@@ -106,7 +158,8 @@ const styles = StyleSheet.create({
         height: '8%',
         width: '100%',
         flexDirection:'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        minHeight: '8%'
     },
     imageStyle:{
         width: '10%',
@@ -125,7 +178,7 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         alignItems:'center',
         justifyContent:'space-between',
-        padding: '3%'
+        margin: '3%'
     },
     forget_pwd_style:{
         color:'red',
