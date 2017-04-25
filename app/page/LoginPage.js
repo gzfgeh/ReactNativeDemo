@@ -16,12 +16,12 @@ import BasePage from './BasePage'
 import NavigationBar from './../component/SimpleNavigationBar'
 import Utils from './../common/theme'
 import './../common/ToastLog'
+import RegisterPage from './RegisterPage'
 
 export default class LoginPage extends BasePage{
     constructor(props){
         super(props);
         this.state = {
-            logoHeight: '25%',
             isShowKeyboard:false,
         }
     }
@@ -31,7 +31,6 @@ export default class LoginPage extends BasePage{
      * @private
      */
     _onFocus(){
-        ToastLog("111")
         setTimeout(()=> {
             if (!this.state.isShowKeyboard){
                 this.refs.logo.setNativeProps({
@@ -50,7 +49,6 @@ export default class LoginPage extends BasePage{
      * @private
      */
     _onBlur(){
-        ToastLog("333")
         setTimeout(()=> {
             if (this.state.isShowKeyboard){
                 this.refs.logo.setNativeProps({
@@ -61,6 +59,14 @@ export default class LoginPage extends BasePage{
         this.setState({
             isShowKeyboard: true
         });
+    }
+
+    /**
+     * 注册页面
+     * @private
+     */
+    _goToRegister(){
+        this.props.navigator.push({component: RegisterPage})
     }
 
     render(){
@@ -131,7 +137,7 @@ export default class LoginPage extends BasePage{
 
                 <TouchableHighlight style={styles.forgetWrap}
                     underlayColor={Utils.underClickColor}
-                    onPress={()=> {}}>
+                    onPress={()=> {this._goToRegister()}}>
 
                     <Text style={styles.forgetText}>注册</Text>
 
@@ -178,7 +184,7 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         alignItems:'center',
         justifyContent:'space-between',
-        margin: '3%'
+        padding: '3%'
     },
     forget_pwd_style:{
         color:'red',
