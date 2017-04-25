@@ -18,6 +18,12 @@ var dismissKeyboard = require('dismissKeyboard');
 
 export default class RegisterPage extends BasePage{
 
+    constructor(props){
+        super(props);
+        this.state = {
+            keyboardSpace: 0,
+        }
+    }
     /**
      * input 获取焦点
      * @private
@@ -43,7 +49,7 @@ export default class RegisterPage extends BasePage{
             <ScrollView style={{flex: 1}}
                         keyboardShouldPersistTaps='always'
                         ref = {(ref)=>this.scrollView = ref}
-                        contentInset = {{bottom:keyboardSpace}}
+                        contentInset = {{bottom:this.state.keyboardSpace}}
                         onTouchStart= {()=> {this._onTouchStart()}}
                         >
           <View style={styles.container}>
