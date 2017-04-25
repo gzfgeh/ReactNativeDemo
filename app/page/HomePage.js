@@ -327,7 +327,7 @@ export default class HomePage extends React.Component{
                     </View>
 
                     <View>
-                        <View style={{height: 5, width: '100%',backgroundColor:"#EBEBEB"}} />
+                        <View style={{height: 5, width: '100%',backgroundColor:Utils.dividerBgColor}} />
 
                         <View style={styles.listStyle}>
                             <Image style={{width: 110, height: 40, marginRight: 40}} source={require('./../image/main_trade.png')}  resizeMode="stretch"/>
@@ -336,7 +336,7 @@ export default class HomePage extends React.Component{
                             <Text style={styles.tradeTextInAct} onPress={ ()=> {this._changeTradePE()}} ref="pe">PE</Text>
                             <Text style={{marginLeft: 15}} onPress={()=> {this._changeMore()}}>更多 ></Text>
 
-                            <View style={{height: 1, width: '100%',backgroundColor:"#EBEBEB"}} />
+                            <View style={{height: 1, width: '100%',backgroundColor:Utils.dividerBgColor}} />
                         </View>
                     </View>
 
@@ -358,7 +358,7 @@ export default class HomePage extends React.Component{
                                 )
                             }}
                         />
-                        <View style={{height: 5, width: '100%',backgroundColor:"#EBEBEB"}} />
+                        <View style={{height: 5, width: '100%',backgroundColor:Utils.dividerBgColor}} />
                         <Image style={{width: 110, height: 40, marginRight: 40}} source={require('./../image/main_detail.png')}  resizeMode="stretch"/>
 
                         <FlatList
