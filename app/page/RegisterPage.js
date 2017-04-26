@@ -40,22 +40,22 @@ export default class RegisterPage extends BasePage{
     }
 
     _onTouchStart(){
-        dismissKeyboard();
-        this.scrollView.scrollTo({x:0,y:0,animated:true})
+        //dismissKeyboard();
+        //this.scrollView.scrollTo({x:0,y:0,animated:true})
     }
 
     render(){
         return(
-            <ScrollView style={{flex: 1}}
-                        keyboardShouldPersistTaps='always'
-                        ref = {(ref)=>this.scrollView = ref}
-                        contentInset = {{bottom:this.state.keyboardSpace}}
-                        onTouchStart= {()=> {this._onTouchStart()}}
-                        >
+
           <View style={styles.container}>
               <NavigationBar title="注册"
                    backOnPress={this._handleBack.bind(this)}/>
 
+              <ScrollView style={{flex: 1}}
+                          keyboardShouldPersistTaps='always'
+                          ref = {(ref)=>this.scrollView = ref}
+                          contentInset = {{bottom:this.state.keyboardSpace}}
+                          onTouchStart= {()=> {this._onTouchStart()}}>
 
               <View style={styles.inputWrap}>
                   <Image
@@ -166,9 +166,9 @@ export default class RegisterPage extends BasePage{
                   <Text style={styles.registerText}>注册</Text>
 
               </TouchableHighlight>
-
+              </ScrollView>
           </View>
-            </ScrollView>
+
         );
     }
 }
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     inputWrap:{
-        height: '15%',
+        height: Utils.screenHeight/12,
         width: '100%',
         flexDirection:'row',
         alignItems: 'center',
@@ -197,13 +197,13 @@ const styles = StyleSheet.create({
     },
     registerWrap:{
         width: '90%',
-        height: '6%',
+        height: Utils.screenHeight/15,
         justifyContent:'center',
         alignItems: 'center',
         backgroundColor: '#ea5251',
         borderRadius: 6,
         marginLeft: '5%',
-        marginTop: '5%'
+        marginTop:'10%',
     },
     registerText:{
         color: 'white',
