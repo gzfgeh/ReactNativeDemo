@@ -20,6 +20,7 @@ import {PullView} from 'react-native-pull'
 import Utils from '../common/theme'
 import WebViewPage from './WebViewPage'
 import Loading from './../component/Loading'
+import Dialog from './../component/Dialog'
 
 
 let projectText = ['现货交易', '我的交易', '我的询盘', '交易规则', '化交价格', '化交资讯', '化交报告', '资金详情'];
@@ -151,10 +152,14 @@ export default class HomePage extends React.Component{
         let project = [];
         for(let i=0; i<8; i++){
             project.push(
-                <View style={styles.imageStyle} key={i}>
+                <TouchableHighlight
+                    style={styles.imageStyle}
+                    key={i}
+                    underlayColor={Utils.btnActiveOpacity}
+                    onPress={()=> {this.refs.dialog.show("确定要取消订单吗");}}>
                     <Image source={projectImage[i]} style={styles.imageStyleView}/>
                     <Text>{projectText[i]}</Text>
-                </View>
+                </TouchableHighlight>
             );
         }
         return project;
@@ -377,6 +382,7 @@ export default class HomePage extends React.Component{
                         />
 
                     </PullView>
+                    <Dialog ref="dialog" callback={this.callback.bind(this)}/>
                 </View>
             );
         }
