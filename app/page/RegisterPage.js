@@ -16,12 +16,13 @@ import NavigationBar from './../component/SimpleNavigationBar'
 import Utils from './../common/theme'
 var dismissKeyboard = require('dismissKeyboard');
 
+var isHide = false;
 export default class RegisterPage extends BasePage{
 
     constructor(props){
         super(props);
         this.state = {
-            keyboardSpace: 0,
+            isHide: false,
         }
     }
     /**
@@ -29,7 +30,7 @@ export default class RegisterPage extends BasePage{
      * @private
      */
     _onFocus(){
-
+        isHide = true;
     }
 
     /**
@@ -37,11 +38,25 @@ export default class RegisterPage extends BasePage{
      * @private
      */
     _onBlur(){
+        isHide = false;
     }
 
+    /**
+     * 点击空白处  相应的函数
+     * @private
+     */
     _onTouchStart(){
-        //dismissKeyboard();
-        //this.scrollView.scrollTo({x:0,y:0,animated:true})
+        setTimeout(()=> {
+            if (!isHide){
+                dismissKeyboard();
+                this.scrollView.scrollTo({x:0,y:0,animated:true})
+            };
+            isHide = false;
+        }, 500);
+    }
+
+    _onScroll(){
+        isHide = true;
     }
 
     render(){
@@ -54,8 +69,8 @@ export default class RegisterPage extends BasePage{
               <ScrollView style={{flex: 1}}
                           keyboardShouldPersistTaps='always'
                           ref = {(ref)=>this.scrollView = ref}
-                          contentInset = {{bottom:this.state.keyboardSpace}}
-                          onTouchStart= {()=> {this._onTouchStart()}}>
+                          onTouchStart= {()=> {this._onTouchStart()}}
+                          onScroll = {()=> {this._onScroll()}}>
 
               <View style={styles.inputWrap}>
                   <Image
@@ -162,10 +177,10 @@ export default class RegisterPage extends BasePage{
               <TouchableHighlight style={styles.registerWrap}
                                   underlayColor={Utils.underClickColor}
                                   onPress={()=> {}}>
-
                   <Text style={styles.registerText}>注册</Text>
-
               </TouchableHighlight>
+
+                  <View style={{height: Utils.screenHeight/2}}/>
               </ScrollView>
           </View>
 
