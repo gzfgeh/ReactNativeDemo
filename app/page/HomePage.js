@@ -22,7 +22,6 @@ import WebViewPage from './WebViewPage'
 import Loading from './../component/Loading'
 import Dialog from './../component/Dialog'
 
-
 let projectText = ['现货交易', '我的交易', '我的询盘', '交易规则', '化交价格', '化交资讯', '化交报告', '资金详情'];
 let projectImage = [
     require('./../image/list_1.png'), require('./../image/list_2.png'),
@@ -152,17 +151,22 @@ export default class HomePage extends React.Component{
         let project = [];
         for(let i=0; i<8; i++){
             project.push(
-                <TouchableHighlight
-                    style={styles.imageStyle}
-                    key={i}
-                    underlayColor={Utils.btnActiveOpacity}
-                    onPress={()=> {this.refs.dialog.show("确定要取消订单吗");}}>
-                    <Image source={projectImage[i]} style={styles.imageStyleView}/>
-                    <Text>{projectText[i]}</Text>
-                </TouchableHighlight>
+                    <TouchableHighlight style={styles.projectClickStyle}
+                                key={i}
+                                underlayColor={Utils.underClickColor}
+                                onPress={()=>{this.refs.dialog.show("确定要取消订单吗");}}>
+                        <View style={styles.imageStyle} >
+                            <Image source={projectImage[i]} style={styles.imageStyleView}/>
+                            <Text>{projectText[i]}</Text>
+                        </View>
+                    </TouchableHighlight>
             );
         }
         return project;
+    }
+
+    _dialogCallBack(){
+
     }
 
 
@@ -380,9 +384,9 @@ export default class HomePage extends React.Component{
                                 )
                             }}
                         />
-
+                        <Dialog ref="dialog" callback={()=>{this._dialogCallBack()}}/>
                     </PullView>
-                    <Dialog ref="dialog" callback={this.callback.bind(this)}/>
+
                 </View>
             );
         }
@@ -404,9 +408,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
     },
-    imageStyle:{
+    projectClickStyle:{
         height: '35%',
         width: '25%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    imageStyle:{
+        height: '100%',
+        width: '100%',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',

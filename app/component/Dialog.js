@@ -37,7 +37,7 @@ export default class Dialog extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            offset: new Animated.Value(0),
+            offset: new Animated.Value(1),
             opacity: new Animated.Value(0),
             title: "",
             hide: true,
@@ -50,15 +50,20 @@ export default class Dialog extends Component {
         } else {
             return (
                 <View style={styles.container} >
-                    <Animated.View style={ styles.mask } >
-                    </Animated.View>
+                    <View style={ styles.mask } >
+                    </View>
 
-                    <Animated.View style={[styles.tip , {transform: [{
-                        translateY: this.state.offset.interpolate({
-                            inputRange: [0, 1,2],
-                            outputRange: [0, middleTop,height]
-                        }),
-                    }]
+                    <Animated.View style={[styles.tip , {transform: [
+                        {
+                            translateY: this.state.offset.interpolate({
+                                inputRange: [1,2],
+                                outputRange: [middleTop,height]
+                            }),
+                        },
+                        {
+                            scale:this.state.opacity
+                        }
+                        ]
                     }]}>
                         <View style={styles.tipTitleView}>
                             <Text style={styles.tipTitleText}>{this.state.title}</Text>
@@ -68,6 +73,7 @@ export default class Dialog extends Component {
                             <TouchableHighlight style={styles.cancelBtnView} underlayColor='#f0f0f0' onPress={this.cancelBtn.bind(this)}>
                                 <Text style={styles.cancelBtnText}>取消</Text>
                             </TouchableHighlight>
+                            <View style={styles.dividerLineStyle}/>
                             <TouchableHighlight style={styles.okBtnView} underlayColor='#f0f0f0' onPress={this.okBtn.bind(this)}>
                                 <Text style={styles.okBtnText}>确定</Text>
                             </TouchableHighlight>
@@ -86,7 +92,7 @@ export default class Dialog extends Component {
                 this.state.opacity,
                 {
                     easing: Easing.linear,
-                    duration: 500,
+                    duration: 300,
                     toValue: 0.8,
                 }
             ),
@@ -94,7 +100,7 @@ export default class Dialog extends Component {
                 this.state.offset,
                 {
                     easing: Easing.linear,
-                    duration: 500,
+                    duration: 300,
                     toValue: 1,
                 }
             )
@@ -108,7 +114,7 @@ export default class Dialog extends Component {
                 this.state.opacity,
                 {
                     easing: Easing.linear,
-                    duration: 500,
+                    duration: 300,
                     toValue: 0,
                 }
             ),
@@ -116,8 +122,8 @@ export default class Dialog extends Component {
                 this.state.offset,
                 {
                     easing: Easing.linear,
-                    duration: 500,
-                    toValue: 2,
+                    duration: 300,
+                    toValue: 1,
                 }
             )
         ]).start();
@@ -130,12 +136,12 @@ export default class Dialog extends Component {
                     this.state.offset,
                     {
                         easing: Easing.linear,
-                        duration: 500,
-                        toValue: 0,
+                        duration: 300,
+                        toValue: 1,
                     }
                 ).start();
             },
-            500
+            300
         );
     }
 
@@ -159,7 +165,7 @@ export default class Dialog extends Component {
                     let {callback} = this.props;
                     callback.apply(null,[]);
                 },
-                500
+                300
             );
         }
     }
@@ -201,6 +207,7 @@ const styles = StyleSheet.create({
         backgroundColor:"#fff",
         alignItems:"center",
         justifyContent:"space-between",
+        borderRadius: 8,
     },
     tipTitleView: {
         width:aWidth,
@@ -208,7 +215,7 @@ const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent:'center',
         borderBottomWidth:1/2,
-        borderColor:'#f0f0f0',
+        borderColor:'blue',
     },
     tipTitleText:{
         color:"#333333",
@@ -222,6 +229,8 @@ const styles = StyleSheet.create({
     btnView:{
         flexDirection:'row',
         height: 44,
+        borderBottomLeftRadius:15,
+        borderBottomRightRadius:15,
     },
     cancelBtnView:{
         width:aWidth/2,
@@ -229,8 +238,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
-        borderRightWidth:1/2,
-        borderColor:'#f0f0f0',
+        borderBottomLeftRadius:15,
     },
     cancelBtnText: {
         fontSize:17,
@@ -238,12 +246,18 @@ const styles = StyleSheet.create({
         textAlign:"center",
         fontWeight:'bold',
     },
+    dividerLineStyle:{
+      height: 44,
+      width: 1,
+      backgroundColor:'#EBEBEB'
+    },
     okBtnView:{
         width:aWidth/2,
         height: 44,
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
+        borderBottomRightRadius:15,
     },
     okBtnText: {
         fontSize:17,
