@@ -1,7 +1,6 @@
 /**
- * Created by guzhenfu on 17/4/9.
+ * Created by guzhenfu on 17/4/27.
  */
-
 import React from 'react'
 import {
     StyleSheet,
@@ -9,9 +8,8 @@ import {
     Text,
     TouchableHighlight} from 'react-native'
 import Utils from './../common/theme'
-import './../common/ToastLog'
 
-export default class InfoPage extends React.Component{
+export default class ThreeBtnSwitch extends React.Component{
     constructor(props){
         super(props);
         this.state = {
@@ -38,33 +36,33 @@ export default class InfoPage extends React.Component{
 
     render(){
         return(
-          <View style={styles.container}>
-              <View style={styles.titleChange}>
-                  <TouchableHighlight
-                      style={this.state.titleSelect == 1 ? styles.titleLeftActiveItem: styles.titleLeftItem}
-                                    onPress={()=> {this._titleLeft()}}>
-                      <Text
-                          style={this.state.titleSelect == 1 ? styles.titleItemActiveText : styles.titleItemText}>
-                          聚乙烯PE</Text>
-                  </TouchableHighlight>
+            <View style={styles.container}>
+                <View style={styles.titleChange}>
+                    <TouchableHighlight
+                        style={this.state.titleSelect == 1 ? styles.titleLeftActiveItem: styles.titleLeftItem}
+                        onPress={()=> {this._titleLeft()}}>
+                        <Text
+                            style={this.state.titleSelect == 1 ? styles.titleItemActiveText : styles.titleItemText}>
+                            聚乙烯PE</Text>
+                    </TouchableHighlight>
 
-                  <TouchableHighlight
-                      style={this.state.titleSelect == 2 ? styles.titleCenterActiveItem: styles.titleCenterItem}
-                      onPress={()=> this._titleCenter()}>
-                      <Text
-                          style={this.state.titleSelect == 2 ? styles.titleItemActiveText : styles.titleItemText}>
-                          聚丙烯PP</Text>
-                  </TouchableHighlight>
+                    <TouchableHighlight
+                        style={this.state.titleSelect == 2 ? styles.titleCenterActiveItem: styles.titleCenterItem}
+                        onPress={()=> this._titleCenter()}>
+                        <Text
+                            style={this.state.titleSelect == 2 ? styles.titleItemActiveText : styles.titleItemText}>
+                            聚丙烯PP</Text>
+                    </TouchableHighlight>
 
-                  <TouchableHighlight
-                      style={this.state.titleSelect == 3 ? styles.titleRightActiveItem: styles.titleRightItem}
-                                      onPress={()=> {this._titleRight()}}>
-                      <Text
-                          style={this.state.titleSelect == 3 ? styles.titleItemActiveText : styles.titleItemText}>
-                          聚氯乙烯PVC</Text>
-                  </TouchableHighlight>
-              </View>
-          </View>
+                    <TouchableHighlight
+                        style={this.state.titleSelect == 3 ? styles.titleRightActiveItem: styles.titleRightItem}
+                        onPress={()=> {this._titleRight()}}>
+                        <Text
+                            style={this.state.titleSelect == 3 ? styles.titleItemActiveText : styles.titleItemText}>
+                            聚氯乙烯PVC</Text>
+                    </TouchableHighlight>
+                </View>
+            </View>
         );
     }
 }
