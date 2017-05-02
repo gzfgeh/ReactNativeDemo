@@ -1,7 +1,7 @@
 /**
  * Created by guzhenfu on 17/4/27.
  */
-import React from 'react'
+import React , {PropTypes} from 'react'
 import {
     StyleSheet,
     View,
@@ -16,22 +16,16 @@ export default class ThreeBtnSwitch extends React.Component{
             titleSelect: 1,
         };
     }
-    _titleLeft(){
-        this.setState({
-            titleSelect: 1,
-        });
-    }
 
-    _titleCenter(){
-        this.setState({
-            titleSelect: 2,
-        });
-    }
+    static propTypes = {
+        onBtnClick: PropTypes.func,
+    };
 
-    _titleRight(){
+    _btnPress(index){
         this.setState({
-            titleSelect: 3,
+            titleSelect: index,
         });
+        this.props.onBtnClick(index);
     }
 
     render(){
@@ -40,15 +34,15 @@ export default class ThreeBtnSwitch extends React.Component{
                 <View style={styles.titleChange}>
                     <TouchableHighlight
                         style={this.state.titleSelect == 1 ? styles.titleLeftActiveItem: styles.titleLeftItem}
-                        onPress={()=> {this._titleLeft()}}>
+                        onPress={()=> {this._btnPress(1)}}>
                         <Text
                             style={this.state.titleSelect == 1 ? styles.titleItemActiveText : styles.titleItemText}>
-                            聚乙烯PE</Text>
+                            聚乙烯PE--</Text>
                     </TouchableHighlight>
 
                     <TouchableHighlight
                         style={this.state.titleSelect == 2 ? styles.titleCenterActiveItem: styles.titleCenterItem}
-                        onPress={()=> this._titleCenter()}>
+                        onPress={()=> this._btnPress(2)}>
                         <Text
                             style={this.state.titleSelect == 2 ? styles.titleItemActiveText : styles.titleItemText}>
                             聚丙烯PP</Text>
@@ -56,7 +50,7 @@ export default class ThreeBtnSwitch extends React.Component{
 
                     <TouchableHighlight
                         style={this.state.titleSelect == 3 ? styles.titleRightActiveItem: styles.titleRightItem}
-                        onPress={()=> {this._titleRight()}}>
+                        onPress={()=> {this._btnPress(3)}}>
                         <Text
                             style={this.state.titleSelect == 3 ? styles.titleItemActiveText : styles.titleItemText}>
                             聚氯乙烯PVC</Text>
