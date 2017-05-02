@@ -8,9 +8,10 @@ import {
     View,
     Text,
     TouchableHighlight} from 'react-native'
-import Utils from './../common/theme'
-import './../common/ToastLog'
-import ThreeBtnSwitch from './../component/ThreeBtnSwitch'
+import Utils from '../../common/theme'
+import '../../common/ToastLog'
+import ThreeBtnSwitch from './../../component/ThreeBtnSwitch'
+import PEPage from './PEPage'
 
 export default class InfoPage extends React.Component{
     constructor(props){
@@ -39,9 +40,7 @@ export default class InfoPage extends React.Component{
         switch (this.state.index){
             case 1:
                 return(
-                    <View style={styles.container}>
-                        <Text>11111</Text>
-                    </View>
+                    <PEPage />
                 );
 
             case 2:

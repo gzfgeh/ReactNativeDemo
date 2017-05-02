@@ -30,42 +30,36 @@ export default class ThreeBtnSwitch extends React.Component{
 
     render(){
         return(
-            <View style={styles.container}>
-                <View style={styles.titleChange}>
-                    <TouchableHighlight
-                        style={this.state.titleSelect == 1 ? styles.titleLeftActiveItem: styles.titleLeftItem}
-                        onPress={()=> {this._btnPress(1)}}>
-                        <Text
-                            style={this.state.titleSelect == 1 ? styles.titleItemActiveText : styles.titleItemText}>
-                            聚乙烯PE--</Text>
-                    </TouchableHighlight>
+            <View style={styles.titleChange}>
+                <TouchableHighlight
+                    style={this.state.titleSelect == 1 ? styles.titleLeftActiveItem: styles.titleLeftItem}
+                    onPress={()=> {this._btnPress(1)}}>
+                    <Text
+                        style={this.state.titleSelect == 1 ? styles.titleItemActiveText : styles.titleItemText}>
+                        聚乙烯PE</Text>
+                </TouchableHighlight>
 
-                    <TouchableHighlight
-                        style={this.state.titleSelect == 2 ? styles.titleCenterActiveItem: styles.titleCenterItem}
-                        onPress={()=> this._btnPress(2)}>
-                        <Text
-                            style={this.state.titleSelect == 2 ? styles.titleItemActiveText : styles.titleItemText}>
-                            聚丙烯PP</Text>
-                    </TouchableHighlight>
+                <TouchableHighlight
+                    style={this.state.titleSelect == 2 ? styles.titleCenterActiveItem: styles.titleCenterItem}
+                    onPress={()=> this._btnPress(2)}>
+                    <Text
+                        style={this.state.titleSelect == 2 ? styles.titleItemActiveText : styles.titleItemText}>
+                        聚丙烯PP</Text>
+                </TouchableHighlight>
 
-                    <TouchableHighlight
-                        style={this.state.titleSelect == 3 ? styles.titleRightActiveItem: styles.titleRightItem}
-                        onPress={()=> {this._btnPress(3)}}>
-                        <Text
-                            style={this.state.titleSelect == 3 ? styles.titleItemActiveText : styles.titleItemText}>
-                            聚氯乙烯PVC</Text>
-                    </TouchableHighlight>
-                </View>
+                <TouchableHighlight
+                    style={this.state.titleSelect == 3 ? styles.titleRightActiveItem: styles.titleRightItem}
+                    onPress={()=> {this._btnPress(3)}}>
+                    <Text
+                        style={this.state.titleSelect == 3 ? styles.titleItemActiveText : styles.titleItemText}>
+                        聚氯乙烯PVC</Text>
+                </TouchableHighlight>
             </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'white',
-    },
     titleChange:{
         height: Utils.actionBar.height,
         width: '100%',

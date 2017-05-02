@@ -14,7 +14,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Utils from '../common/theme'
 import HomePage from './HomePage'
 import MallPage from './MallPage'
-import InfoPage from './InfoPage'
+import InfoPage from './info/InfoPage'
 import MyPage from './MyPage'
 
 const tabNames = ['home', 'mall', 'order','info', 'my'];
