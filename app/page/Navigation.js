@@ -88,7 +88,7 @@ export default class Navigation extends React.Component{
                     renderIcon={() => <Image style={styles.tab} source={this.state.orderNormal} />}
                     renderSelectedIcon={() => <Image style={styles.tab} source={this.state.orderSelected} />}
                     onPress={() => this.setState({ selectedTab: tabNames[2] })}>
-                    {<InfoPage navigator={this.props.navigator}/>}
+                    {<MallPage navigator={this.props.navigator}/>}
                 </TabNavigator.Item>
                 <TabNavigator.Item
                     tabStyle={styles.tabStyle}
