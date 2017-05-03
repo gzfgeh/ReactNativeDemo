@@ -10,11 +10,12 @@ import {
     TouchableHighlight} from 'react-native'
 import Utils from '../../common/theme'
 import '../../common/ToastLog'
-import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 import ImageButton from './../../component/ImageButton'
+import CustomTabBar from './../../component/CustomTabBar'
 
 const TabNames = ['化交价格', '热点访谈', '化交报告', '化交咨询',
-                    '数据中心', '每日成交', '下游调研', '化交讲堂', '']
+                    '数据中心', '每日成交', '下游调研', '化交讲堂']
 export default class PEPage extends React.Component{
     constructor(props){
         super(props);
@@ -28,10 +29,12 @@ export default class PEPage extends React.Component{
     render(){
         return(
             <ScrollableTabView
-                renderTabBar={()=> <ScrollableTabBar />}
-                tabBarBackgroundColor="rgb(22,131,251)"
-                tabBarActiveTextColor="white"
-                tabBarInactiveTextColor="rgba(255,255,255,0.5)">
+                renderTabBar={()=> <CustomTabBar
+                    addOnPress={()=> {ToastLog("++++++")}}/>}
+                tabBarBackgroundColor="white"
+                tabBarActiveTextColor={Utils.themeColor}
+                tabBarInactiveTextColor="black"
+                tabBarUnderlineStyle={{backgroundColor: Utils.themeColor}}>
                 {
                     TabNames.map((item, i)=> {
                         switch(i){
@@ -43,6 +46,7 @@ export default class PEPage extends React.Component{
                             case 2:
                             case 3:
                             case 4:
+                            case 8:
                                 return (
                                     <Text tabLabel={item} key={i} tabTag={item}>{item}</Text>
                                 );
