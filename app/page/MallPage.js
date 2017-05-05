@@ -11,7 +11,7 @@ import {
     TouchableHighlight,
     ActivityIndicator} from 'react-native'
 
-import {PullView} from 'react-native-pull'
+import LoginPage from './LoginPage'
 import Utils from './../common/theme'
 
 const preData = [{keysss: 1},{keysss:2},{keysss:3},{keysss:4},{keysss:5},{keysss:6},{keysss:7},{keysss:8},{keysss:9},{keysss:10}];
@@ -25,6 +25,11 @@ export default class MallPage extends React.Component{
             data: preData,
         }
     }
+
+    /**
+     * 下拉刷新
+     * @private
+     */
     _onPullRelease(){
         setTimeout(() => {
             this.setState({
@@ -38,10 +43,20 @@ export default class MallPage extends React.Component{
         })
     }
 
+    /**
+     * 点击事件
+     * @param item
+     * @private
+     */
     _onItemPress(item){
-
+        this.props.navigator.push({component: LoginPage})
     }
 
+    /**
+     * 加载更多 UI渲染
+     * @returns {XML}
+     * @private
+     */
     _renderFoot(){
         return(
             <View
@@ -55,10 +70,40 @@ export default class MallPage extends React.Component{
         );
     }
 
+    /**
+     * 加载更多  数据加载
+     * @private
+     */
     _loadMore(){
-        this.setState({
-            data: [...this.state.data, preData],
-        })
+        setTimeout(() => {
+            this.setState({
+                data: this.state.data.concat(preData),
+            })
+
+        }, 3000);
+
+
+    }
+
+    /**
+     * 渲染item 布局
+     * @param item
+     * @returns {XML}
+     * @private
+     */
+    _renderItem(item){
+        return(
+            <TouchableHighlight
+                underlayColor={Utils.underClickColor}
+                onPress={()=> {this._onItemPress(item)}}>
+                <View style={styles.listWrapper}>
+                    <View style={styles.listItemWrapper}><Text >{item.index + "1"}</Text></View>
+                    <View style={styles.listItemWrapper}><Text >{item.item.keysss+"2"}</Text></View>
+                    <View style={styles.listItemWrapper}><Text style={styles.listItemTextBlue}>{"sddsd"}</Text></View>
+                    <View style={styles.listItemWrapper}><Text style={styles.listItemTextRed}>{"sddsd"}</Text></View>
+                </View>
+            </TouchableHighlight>
+        )
     }
 
     render(){
@@ -72,23 +117,10 @@ export default class MallPage extends React.Component{
                 getItemLayout={(data, index) => (
                     {length: 120, offset: 120 * index, index}
                 )}
-                ListFooterComponent={this._renderFoot}
-                onEndReached={this._loadMore}
+                ListFooterComponent={()=> this._renderFoot()}
+                onEndReached={()=> this._loadMore()}
                 onEndThreshold={0}
-                renderItem={(item) => {
-                    return(
-                        <TouchableHighlight
-                            underlayColor={Utils.underClickColor}
-                            onPress={()=> {this._onItemPress(item)}}>
-                            <View style={styles.listWrapper}>
-                                <View style={styles.listItemWrapper}><Text >{item.index + "1"}</Text></View>
-                                <View style={styles.listItemWrapper}><Text >{item.item.keysss+1}</Text></View>
-                                <View style={styles.listItemWrapper}><Text style={styles.listItemTextBlue}>{1111+2}</Text></View>
-                                <View style={styles.listItemWrapper}><Text style={styles.listItemTextRed}>{1111+3}</Text></View>
-                            </View>
-                        </TouchableHighlight>
-                    )
-                }}/>
+                renderItem={(item)=> this._renderItem(item)}/>
           </View>
         );
     }
