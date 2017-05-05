@@ -21,9 +21,26 @@ export default class MallPage extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            isInit: true,
             isRefresh: false,
             data: preData,
         }
+    }
+
+    _renderInit(){
+        setTimeout(() => {
+            this.setState({
+                isInit: false,
+            });
+
+        }, 3000);
+        return(
+            <View
+                style={{flex: 1,justifyContent: 'center',
+                    alignItems: 'center', backgroundColor:'white'}}>
+                <ActivityIndicator animating size="large" />
+            </View>
+        );
     }
 
     /**
@@ -81,8 +98,6 @@ export default class MallPage extends React.Component{
             })
 
         }, 3000);
-
-
     }
 
     /**
@@ -106,23 +121,31 @@ export default class MallPage extends React.Component{
         )
     }
 
-    render(){
+    _rendFlatList(){
         return(
-          <View style={styles.container}>
-              <FlatList
-                data={this.state.data}
-                keyExtractor={(item, index) => {return index}}
-                onRefresh={()=> this._onPullRelease()}
-                refreshing={this.state.isRefresh}
-                getItemLayout={(data, index) => (
+            <View style={styles.container}>
+                <FlatList
+                    data={this.state.data}
+                    keyExtractor={(item, index) => {return index}}
+                    onRefresh={()=> this._onPullRelease()}
+                    refreshing={this.state.isRefresh}
+                    getItemLayout={(data, index) => (
                     {length: 120, offset: 120 * index, index}
-                )}
-                ListFooterComponent={()=> this._renderFoot()}
-                onEndReached={()=> this._loadMore()}
-                onEndThreshold={0}
-                renderItem={(item)=> this._renderItem(item)}/>
-          </View>
+                    )}
+                    ListFooterComponent={()=> this._renderFoot()}
+                    onEndReached={()=> this._loadMore()}
+                    onEndThreshold={0}
+                    renderItem={(item)=> this._renderItem(item)}/>
+            </View>
         );
+    }
+
+    render(){
+        if (this.state.isInit){
+            return this._renderInit()
+        } else{
+            return this._rendFlatList();
+        }
     }
 }
 
