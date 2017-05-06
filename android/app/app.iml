@@ -123,7 +123,7 @@
     <orderEntry type="library" exported="" name="react-native-0.43.2" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-25.0.0" level="project" />
     <orderEntry type="library" exported="" name="support-vector-drawable-25.0.0" level="project" />
-    <orderEntry type="module" module-name="react-native-splash-screen" exported="" />
     <orderEntry type="module" module-name="react-native-vector-icons" exported="" />
+    <orderEntry type="library" exported="" name="support-annotations-23.4.0" level="project" />
   </component>
 </module>

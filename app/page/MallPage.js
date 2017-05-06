@@ -9,7 +9,8 @@ import {
     Text,
     FlatList,
     TouchableHighlight,
-    ActivityIndicator} from 'react-native'
+    ActivityIndicator,
+    ScrollView} from 'react-native'
 
 import LoginPage from './LoginPage'
 import Utils from './../common/theme'
@@ -96,7 +97,7 @@ export default class MallPage extends React.Component{
             this.setState({
                 data: this.state.data.concat(preData),
             })
-
+            ToastLog("load more")
         }, 3000);
     }
 
@@ -121,21 +122,36 @@ export default class MallPage extends React.Component{
         )
     }
 
+    /**
+     *
+     * @returns {XML}
+     * @private
+     */
+    _renderHeader(){
+        return(
+          <Text style={{
+              width:"100%",
+              height:100,
+              justifyContent: 'center', alignItems: 'center'}}>这是固定头部</Text>
+        );
+    }
+
     _rendFlatList(){
         return(
             <View style={styles.container}>
-                <FlatList
-                    data={this.state.data}
-                    keyExtractor={(item, index) => {return index}}
-                    onRefresh={()=> this._onPullRelease()}
-                    refreshing={this.state.isRefresh}
-                    getItemLayout={(data, index) => (
-                    {length: 120, offset: 120 * index, index}
-                    )}
-                    ListFooterComponent={()=> this._renderFoot()}
-                    onEndReached={()=> this._loadMore()}
-                    onEndThreshold={0}
-                    renderItem={(item)=> this._renderItem(item)}/>
+                    {this._renderHeader()}
+                    <FlatList
+                        data={this.state.data}
+                        refreshing={this.state.isRefresh}
+                        onRefresh={()=> this._onPullRelease()}
+                        keyExtractor={(item, index) => {return index}}
+                        getItemLayout={(data, index) => (
+                        {length: 120, offset: 120 * index, index}
+                        )}
+                        ListFooterComponent={()=> this._renderFoot()}
+                        onEndReached={()=> this._loadMore()}
+                        onEndThreshold={1}
+                        renderItem={(item)=> this._renderItem(item)}/>
             </View>
         );
     }
@@ -161,8 +177,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-around',
         height: 100,
-        borderBottomWidth: 1,
-        borderBottomColor: Utils.dividerBgColor,
+        borderTopWidth: 1,
+        borderTopColor: Utils.dividerBgColor,
     },
     listItemWrapper:{
         width: '25%',
