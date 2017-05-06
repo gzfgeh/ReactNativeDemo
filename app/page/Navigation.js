@@ -16,6 +16,7 @@ import HomePage from './HomePage'
 import MallPage from './MallPage'
 import InfoPage from './info/InfoPage'
 import MyPage from './MyPage'
+import OrderPage from './OrderPage'
 
 const tabNames = ['home', 'mall', 'order','info', 'my'];
 
@@ -88,7 +89,7 @@ export default class Navigation extends React.Component{
                     renderIcon={() => <Image style={styles.tab} source={this.state.orderNormal} />}
                     renderSelectedIcon={() => <Image style={styles.tab} source={this.state.orderSelected} />}
                     onPress={() => this.setState({ selectedTab: tabNames[2] })}>
-                    {<MallPage navigator={this.props.navigator}/>}
+                    {<OrderPage navigator={this.props.navigator}/>}
                 </TabNavigator.Item>
                 <TabNavigator.Item
                     tabStyle={styles.tabStyle}
