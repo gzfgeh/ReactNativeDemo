@@ -97,7 +97,7 @@ export default class extends Component {
             }
             return;
         } else if (isDownGesture(gesture.dx, gesture.dy)) { //下拉
-            this.state.pullPan.setValue({x: this.defaultXY.x, y: this.lastY + gesture.dy / 2});
+            //this.state.pullPan.setValue({x: this.defaultXY.x, y: this.lastY + gesture.dy / 2});
             if (gesture.dy < this.topIndicatorHeight + this.pullOkMargin) { //正在下拉
                 if (!this.flag.pulling) {
                     this.props.onPulling && this.props.onPulling();
@@ -149,19 +149,6 @@ export default class extends Component {
         if (this.flag != flag) {
             this.flag = flag;
             this.renderTopIndicator();
-            // this.txt.setNativeProps({text: `${Math.random()}`}); // setNativeProps可解决滑动卡顿问题，以下代码都没有解决
-            // if(this.flag.pullok) {
-            //     InteractionManager.runAfterInteractions(() => {
-            //         this.setState({flag: this.flag});
-            //     });
-            // } else {
-            // this.setState({flag: this.flag});
-            // }
-
-            // requestAnimationFrame(() => {
-            //     this.setState({flag: this.flag});
-            // });
-            // this.setState({topIndicator: this.renderTopIndicator()});
         }
     }
 
@@ -187,8 +174,6 @@ export default class extends Component {
     onLayout(e) {
         if (this.state.width != e.nativeEvent.layout.width || this.state.height != e.nativeEvent.layout.height) {
             this.scrollContainer.setNativeProps({style: {width: e.nativeEvent.layout.width, height: e.nativeEvent.layout.height}});
-            this.width = e.nativeEvent.layout.width;
-            this.height = e.nativeEvent.layout.height;
         }
     }
 

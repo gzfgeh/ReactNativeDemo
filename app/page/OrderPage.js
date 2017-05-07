@@ -22,6 +22,10 @@ import Utils from './../common/theme'
 export default class OrderPage extends React.Component{
     constructor(props){
         super(props);
+
+        // setTimeout(()=>{
+        //     this._scrollView.stopLoading();
+        // },2000);
     }
 
     onRefresh(){
@@ -68,7 +72,7 @@ export default class OrderPage extends React.Component{
         );
     }
 
-    render(){
+    _now(){
         return(
             <View style={[styles.container]}>
                 <PullView style={{width: Utils.screenWidth}} onPullRelease={this.onPullRelease}>
@@ -86,6 +90,10 @@ export default class OrderPage extends React.Component{
                 </PullView>
             </View>
         );
+    }
+
+    render(){
+        return this._now();
     }
 }
 
