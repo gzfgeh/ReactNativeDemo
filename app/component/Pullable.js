@@ -100,12 +100,12 @@ export default class extends Component {
             //this.state.pullPan.setValue({x: this.defaultXY.x, y: this.lastY + gesture.dy / 2});
             if (gesture.dy < this.topIndicatorHeight + this.pullOkMargin) { //正在下拉
                 if (!this.flag.pulling) {
-                    this.props.onPulling && this.props.onPulling();
+                    //this.props.onPulling && this.props.onPulling();
                 }
                 this.setFlag(flagPulling);
             } else { //下拉到位
                 if (!this.state.pullok) {
-                    this.props.onPullOk && this.props.onPullOk();
+                    //this.props.onPullOk && this.props.onPullOk();
                 }
                 this.setFlag(flagPullok);
             }
