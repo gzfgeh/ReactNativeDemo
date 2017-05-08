@@ -20,7 +20,7 @@ import {
 // const padding = 2; //scrollview与外面容器的距离
 const pullOkMargin = 100; //下拉到ok状态时topindicator距离顶部的距离
 const defaultDuration = 300;
-const defaultTopIndicatorHeight = 60; //顶部刷新指示器的高度
+const defaultTopIndicatorHeight = 100; //顶部刷新指示器的高度
 const defaultFlag = {pulling: false, pullok: false, pullrelease: false};
 const flagPulling = {pulling: true, pullok: false, pullrelease: false};
 const flagPullok = {pulling: false, pullok: true, pullrelease: false};
@@ -48,7 +48,8 @@ export default class extends Component {
             pullPan: new Animated.ValueXY(this.defaultXY),
             scrollEnabled: this.defaultScrollEnabled,
             flag: defaultFlag,
-            height: 0
+            height: 0,
+            prArrowDeg:new Animated.Value(0),
         });
         this.gesturePosition = {x: 0, y: 0};
         this.onScroll = this.onScroll.bind(this);
@@ -68,6 +69,8 @@ export default class extends Component {
             onPanResponderTerminate: this.onPanResponderRelease.bind(this),
         });
         this.setFlag(defaultFlag);
+        this.base64Icon = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAABQBAMAAAD8TNiNAAAAJ1BMVEUAAACqqqplZWVnZ2doaGhqampoaGhpaWlnZ2dmZmZlZWVmZmZnZ2duD78kAAAADHRSTlMAA6CYqZOlnI+Kg/B86E+1AAAAhklEQVQ4y+2LvQ3CQAxGLSHEBSg8AAX0jECTnhFosgcjZKr8StE3VHz5EkeRMkF0rzk/P58k9rgOW78j+TE99OoeKpEbCvcPVDJ0OvsJ9bQs6Jxs26h5HCrlr9w8vi8zHphfmI0fcvO/ZXJG8wDzcvDFO2Y/AJj9ADE7gXmlxFMIyVpJ7DECzC9J2EC2ECAAAAAASUVORK5CYII=';
+
     }
 
     onShouldSetPanResponder(e, gesture) {
@@ -97,15 +100,15 @@ export default class extends Component {
             }
             return;
         } else if (isDownGesture(gesture.dx, gesture.dy)) { //下拉
-            //this.state.pullPan.setValue({x: this.defaultXY.x, y: this.lastY + gesture.dy / 2});
+            this.state.pullPan.setValue({x: this.defaultXY.x, y: this.lastY + gesture.dy / 2});
             if (gesture.dy < this.topIndicatorHeight + this.pullOkMargin) { //正在下拉
                 if (!this.flag.pulling) {
-                    //this.props.onPulling && this.props.onPulling();
+                    this.props.onPulling && this.props.onPulling();
                 }
                 this.setFlag(flagPulling);
             } else { //下拉到位
                 if (!this.state.pullok) {
-                    //this.props.onPullOk && this.props.onPullOk();
+                    this.props.onPullOk && this.props.onPullOk();
                 }
                 this.setFlag(flagPullok);
             }
@@ -205,12 +208,53 @@ export default class extends Component {
      make changes directly to a component without using state/props to trigger a re-render of the entire subtree
      */
     defaultTopIndicatorRender(pulling, pullok, pullrelease, gesturePosition) {
-        setTimeout(() => {
+        ToastLog(pulling +"-"+ pullok +"--"+ pullrelease + "---")
+        this.transform = [{rotate:this.state.prArrowDeg.interpolate({
+            inputRange: [0,1],
+            outputRange: ['0deg', '-180deg']
+        })}];
+
+        // if (pullok){
+        //     Animated.timing(this.state.prArrowDeg, {
+        //         toValue: 1,
+        //         duration: 100,
+        //         easing: Easing.inOut(Easing.quad)
+        //     }).start();
+        // }else if(pulling){
+        //     Animated.timing(this.state.prArrowDeg, {
+        //         toValue: 0,
+        //         duration: 100,
+        //         easing: Easing.inOut(Easing.quad)
+        //     }).start();
+        // }else{
+        //     this.txtPulling && this.txtPulling.setNativeProps({style: styles.hide});
+        //     this.txtPullrelease && this.txtPullrelease.setNativeProps({style: styles.show});
+        // }
+        //
+        // return (
+        //   <View style={{height: defaultTopIndicatorHeight}}>
+        //       {this._renderLoading(pullrelease)}
+        //       <Text>下拉头 + gesturePosition</Text>
+        //   </View>
+        // );
+
+
+        // setTimeout(() => {
             if (pulling) {
+                Animated.timing(this.state.prArrowDeg, {
+                                toValue: 0,
+                                duration: 100,
+                                easing: Easing.inOut(Easing.quad)
+                            }).start();
                 this.txtPulling && this.txtPulling.setNativeProps({style: styles.show});
                 this.txtPullok && this.txtPullok.setNativeProps({style: styles.hide});
                 this.txtPullrelease && this.txtPullrelease.setNativeProps({style: styles.hide});
             } else if (pullok) {
+                    Animated.timing(this.state.prArrowDeg, {
+                        toValue: 1,
+                        duration: 100,
+                        easing: Easing.inOut(Easing.quad)
+                    }).start();
                 this.txtPulling && this.txtPulling.setNativeProps({style: styles.hide});
                 this.txtPullok && this.txtPullok.setNativeProps({style: styles.show});
                 this.txtPullrelease && this.txtPullrelease.setNativeProps({style: styles.hide});
@@ -219,13 +263,30 @@ export default class extends Component {
                 this.txtPullok && this.txtPullok.setNativeProps({style: styles.hide});
                 this.txtPullrelease && this.txtPullrelease.setNativeProps({style: styles.show});
             }
-        }, 1);
+        // }, 1);
         return (
-            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: defaultTopIndicatorHeight}}>
-                <ActivityIndicator size="small" color="gray" />
-                <Text ref={(c) => {this.txtPulling = c;}} style={styles.hide}>{"下拉刷新"}</Text>
-                <Text ref={(c) => {this.txtPullok = c;}} style={styles.hide}>{"刷新完成"}</Text>
-                <Text ref={(c) => {this.txtPullrelease = c;}} style={styles.hide}>{"正在刷新"}</Text>
+            <View style={{height: defaultTopIndicatorHeight}}>
+                <View ref={(c) => {this.txtPulling = c;}} style={styles.hide}>
+                    <Animated.Image style={[styles.show,{transform:this.transform}]}
+                                    resizeMode={'contain'}
+                                    source={require('./../image/msg.png')}/>
+                    <Text>{"下拉可以刷新"}</Text>
+               </View>
+
+                <View ref={(c) => {this.txtPullok = c;}} style={styles.hide}>
+
+                    <Animated.Image style={[styles.show,{transform:this.transform}]}
+                                    resizeMode={'contain'}
+                                    source={require('./../image/msg.png')}/>
+                    <Text>{"松开可以刷新"}</Text>
+               </View>
+
+                <View ref={(c) => {this.txtPullrelease = c;}} style={styles.hide}>
+                    <ActivityIndicator size="small" color="gray" />
+                    <Text>{"刷新中"}</Text>
+                </View>
+
+                <Text>上次更新时间</Text>
             </View>
         );
     }
@@ -243,5 +304,10 @@ const styles = StyleSheet.create({
     show: {
         position: 'relative',
         left: 0
+    },
+    headWrapper:{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 });
