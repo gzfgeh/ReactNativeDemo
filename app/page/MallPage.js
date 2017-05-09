@@ -14,6 +14,7 @@ import {
 
 import LoginPage from './LoginPage'
 import Utils from './../common/theme'
+import RefreshFlatList from './../component/RefreshFlatList'
 
 const preData = [{keysss: 1},{keysss:2},{keysss:3},{keysss:4},{keysss:5},{keysss:6},{keysss:7},{keysss:8},{keysss:9},{keysss:10}];
 const newData = [{keysss: 12},{keysss:23},{keysss:34},{keysss:45},{keysss:56},{keysss:67},{keysss:78},{keysss:89},{keysss:90},{keysss:10}];
@@ -48,17 +49,11 @@ export default class MallPage extends React.Component{
      * 下拉刷新
      * @private
      */
-    _onPullRelease(){
+    _onPullRelease(resolve){
         setTimeout(() => {
-            this.setState({
-                isRefresh: false,
-                data: newData,
-            })
+            resolve();
 
         }, 3000);
-        this.setState({
-            isRefresh: true,
-        })
     }
 
     /**
@@ -140,10 +135,10 @@ export default class MallPage extends React.Component{
         return(
             <View style={styles.container}>
                     {this._renderHeader()}
-                    <FlatList
+                    <RefreshFlatList
                         data={this.state.data}
-                        refreshing={this.state.isRefresh}
-                        onRefresh={()=> this._onPullRelease()}
+                        refreshing={false}
+                        onPullRelease={this._onPullRelease}
                         keyExtractor={(item, index) => {return index}}
                         getItemLayout={(data, index) => (
                         {length: 120, offset: 120 * index, index}

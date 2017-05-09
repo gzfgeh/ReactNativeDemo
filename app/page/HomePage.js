@@ -16,7 +16,7 @@ import Swiper from 'react-native-swiper'
 import ApiContant from './../common/ApiContant'
 import './../common/ToastLog'
 import HomeModle from './../modle/HomeModle'
-import {PullView} from 'react-native-pull'
+import PullView from './../component/PullView'
 import Utils from '../common/theme'
 import WebViewPage from './WebViewPage'
 import Loading from './../component/Loading'
@@ -69,6 +69,8 @@ export default class HomePage extends React.Component{
                 this.setState({
                     imageViewsData: JSON.parse(data.DATA)
                 });
+            }, error => {
+
             });
 
         /**
@@ -79,6 +81,8 @@ export default class HomePage extends React.Component{
                 this.setState({
                     noticeData: JSON.parse(data.DATA)
                 });
+            }, error => {
+
             })
             .finally(() => {
                 if (!this.state.loaded){
@@ -101,6 +105,8 @@ export default class HomePage extends React.Component{
                 });
                 if (resolve != null)
                     resolve();
+            }, error => {
+
             })
     }
 
@@ -115,6 +121,8 @@ export default class HomePage extends React.Component{
                 this.setState({
                     dataSource: JSON.parse(data.DATA)
                 });
+            }, error => {
+
             });
     }
 
