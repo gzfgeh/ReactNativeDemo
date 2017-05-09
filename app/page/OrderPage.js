@@ -13,8 +13,6 @@ import {
     ScrollView} from 'react-native'
 
 import PullView from './../component/PullView'
-import GScrollView from './../component/GScrollView'
-import PullRefreshScrollView from './../component/PullRefreshScrollView'
 import Utils from './../common/theme'
 
 
@@ -23,16 +21,6 @@ export default class OrderPage extends React.Component{
     constructor(props){
         super(props);
 
-        // setTimeout(()=>{
-        //     this._scrollView.stopLoading();
-        // },2000);
-    }
-
-    onRefresh(){
-        var self = this;
-        setTimeout(function(){
-            self.refs.PullRefresh.onRefreshEnd();
-        },2000);
     }
 
     onPullRelease(resolve) {
@@ -42,35 +30,6 @@ export default class OrderPage extends React.Component{
         }, 3000);
     }
 
-    _older(){
-        return(
-            <GScrollView
-                style={styles.container}
-                ref={component => this._scrollView = component}>
-                <Text style={styles.content}>交易</Text>
-                <Text style={styles.content}>交易</Text>
-                <Text style={styles.content}>交易</Text>
-                <Text style={styles.content}>交易</Text>
-                <Text style={styles.content}>交易</Text>
-            </GScrollView>
-        );
-    }
-
-    _test(){
-        return(
-            <PullRefreshScrollView ref="PullRefresh" onRefresh={()=>this.onRefresh()}>
-                <View style={styles.scrollItem}><Text>Scroll1</Text></View>
-                <View style={styles.scrollItem}><Text>Scroll2</Text></View>
-                <View style={styles.scrollItem}><Text>Scroll3</Text></View>
-                <View style={styles.scrollItem}><Text>Scroll4</Text></View>
-                <View style={styles.scrollItem}><Text>Scroll5</Text></View>
-                <View style={styles.scrollItem}><Text>Scroll6</Text></View>
-                <View style={styles.scrollItem}><Text>Scroll7</Text></View>
-                <View style={styles.scrollItem}><Text>Scroll8</Text></View>
-                <View style={styles.scrollItem}><Text>Scroll9</Text></View>
-            </PullRefreshScrollView>
-        );
-    }
 
     _now(){
         return(

@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 
 // const padding = 2; //scrollview与外面容器的距离
-const pullOkMargin = 10; //下拉到ok状态时topindicator距离顶部的距离
+const pullOkMargin = 100; //下拉到ok状态时topindicator距离顶部的距离
 const defaultDuration = 500;
 const defaultTopIndicatorHeight = 100; //顶部刷新指示器的高度
 const defaultFlag = {pulling: false, pullok: false, pullrelease: false};
@@ -164,7 +164,11 @@ export default class extends Component {
 
     resetDefaultXYHandler() {
         this.flag = defaultFlag;
-        this.state.pullPan.setValue(this.defaultXY);
+        Animated.timing(this.state.pullPan, {
+            toValue: {x: 0, y: this.topIndicatorHeight * -1},
+            easing: Easing.linear,
+            duration: this.duration
+        }).start();
     }
 
     componentWillUpdate(nextProps, nextState) {
