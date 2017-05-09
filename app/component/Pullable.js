@@ -2,8 +2,6 @@
  * Created by guzhenfu on 17/5/7.
  */
 
-'use strict';
-
 import React, { Component } from 'react';
 import {
     View,
@@ -14,12 +12,13 @@ import {
     Easing,
     Dimensions,
     ActivityIndicator,
-    StyleSheet
+    StyleSheet,
+    TextInput
 } from 'react-native';
 
 // const padding = 2; //scrollview与外面容器的距离
-const pullOkMargin = 100; //下拉到ok状态时topindicator距离顶部的距离
-const defaultDuration = 300;
+const pullOkMargin = 10; //下拉到ok状态时topindicator距离顶部的距离
+const defaultDuration = 500;
 const defaultTopIndicatorHeight = 100; //顶部刷新指示器的高度
 const defaultFlag = {pulling: false, pullok: false, pullrelease: false};
 const flagPulling = {pulling: true, pullok: false, pullrelease: false};
@@ -208,38 +207,12 @@ export default class extends Component {
      make changes directly to a component without using state/props to trigger a re-render of the entire subtree
      */
     defaultTopIndicatorRender(pulling, pullok, pullrelease, gesturePosition) {
-        ToastLog(pulling +"-"+ pullok +"--"+ pullrelease + "---")
+
         this.transform = [{rotate:this.state.prArrowDeg.interpolate({
             inputRange: [0,1],
             outputRange: ['0deg', '-180deg']
         })}];
 
-        // if (pullok){
-        //     Animated.timing(this.state.prArrowDeg, {
-        //         toValue: 1,
-        //         duration: 100,
-        //         easing: Easing.inOut(Easing.quad)
-        //     }).start();
-        // }else if(pulling){
-        //     Animated.timing(this.state.prArrowDeg, {
-        //         toValue: 0,
-        //         duration: 100,
-        //         easing: Easing.inOut(Easing.quad)
-        //     }).start();
-        // }else{
-        //     this.txtPulling && this.txtPulling.setNativeProps({style: styles.hide});
-        //     this.txtPullrelease && this.txtPullrelease.setNativeProps({style: styles.show});
-        // }
-        //
-        // return (
-        //   <View style={{height: defaultTopIndicatorHeight}}>
-        //       {this._renderLoading(pullrelease)}
-        //       <Text>下拉头 + gesturePosition</Text>
-        //   </View>
-        // );
-
-
-        // setTimeout(() => {
             if (pulling) {
                 Animated.timing(this.state.prArrowDeg, {
                                 toValue: 0,
@@ -263,51 +236,82 @@ export default class extends Component {
                 this.txtPullok && this.txtPullok.setNativeProps({style: styles.hide});
                 this.txtPullrelease && this.txtPullrelease.setNativeProps({style: styles.show});
             }
-        // }, 1);
         return (
-            <View style={{height: defaultTopIndicatorHeight}}>
+            <View style={styles.headWrap}>
                 <View ref={(c) => {this.txtPulling = c;}} style={styles.hide}>
-                    <Animated.Image style={[styles.show,{transform:this.transform}]}
+                    <Animated.Image style={[styles.arrow,{transform:this.transform}]}
                                     resizeMode={'contain'}
-                                    source={require('./../image/msg.png')}/>
-                    <Text>{"下拉可以刷新"}</Text>
-               </View>
+                                    source={{uri: this.base64Icon}}/>
+                    <Text style={styles.arrowText}>{"下拉可以刷新"}</Text>
+                </View>
 
                 <View ref={(c) => {this.txtPullok = c;}} style={styles.hide}>
 
-                    <Animated.Image style={[styles.show,{transform:this.transform}]}
+                    <Animated.Image style={[styles.arrow,{transform:this.transform}]}
                                     resizeMode={'contain'}
-                                    source={require('./../image/msg.png')}/>
-                    <Text>{"松开可以刷新"}</Text>
-               </View>
-
-                <View ref={(c) => {this.txtPullrelease = c;}} style={styles.hide}>
-                    <ActivityIndicator size="small" color="gray" />
-                    <Text>{"刷新中"}</Text>
+                                    source={{uri: this.base64Icon}}/>
+                    <Text style={styles.arrowText}>{"释放立即刷新"}</Text>
                 </View>
 
-                <Text>上次更新时间</Text>
+                <View ref={(c) => {this.txtPullrelease = c;}} style={styles.hide}>
+                    <ActivityIndicator size="small" color="gray" style={styles.arrow}/>
+                    <Text style={styles.arrowText}>{"刷新数据中..."}</Text>
+                </View>
+
+                <Text>上次更新时间:  {dateFormat(new Date().getTime(),'yyyy-MM-dd hh:mm')}</Text>
             </View>
         );
     }
 }
+
+const dateFormat = function(dateTime, fmt) {
+    let date = new Date(dateTime);
+    fmt = fmt || 'yyyy-MM-dd';
+    let o = {
+        "M+": date.getMonth() + 1, //月份
+        "d+": date.getDate(), //日
+        "h+": date.getHours(), //小时
+        "m+": date.getMinutes(), //分
+        "s+": date.getSeconds(), //秒
+        "q+": Math.floor((date.getMonth() + 3) / 3), //季度
+        "S": date.getMilliseconds() //毫秒
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (let k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+}
+
 
 
 const styles = StyleSheet.create({
     wrap:{
         flex: 1,
     },
+    headWrap:{
+        height: defaultTopIndicatorHeight,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     hide: {
         position: 'absolute',
         left: 10000
     },
-    show: {
+    show:{
         position: 'relative',
-        left: 0
-    },
-    headWrapper:{
+        left: 0,
         flexDirection: 'row',
+        width: Dimensions.get('window').width,
+        height: 40,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    arrow:{
+        height: 30,
+        width: 30,
+        marginRight: 30,
+    },
+    arrowText:{
+        marginLeft: 30,
     }
 });
