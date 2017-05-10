@@ -28,6 +28,11 @@ export default class MallPage extends React.Component{
             isRefresh: false,
             data: preData,
         }
+
+        setTimeout(() => {
+            this._listRef.setData(preData);
+
+        }, 3000);
     }
 
     _renderInit(){
@@ -53,7 +58,7 @@ export default class MallPage extends React.Component{
     _onPullRelease(resolve){
         setTimeout(() => {
             resolve();
-
+            //this._listRef.setData(newData)
         }, 3000);
     }
 
@@ -90,10 +95,7 @@ export default class MallPage extends React.Component{
      */
     _loadMore(){
         setTimeout(() => {
-            this.setState({
-                data: this.state.data.concat(preData),
-            })
-            ToastLog("load more")
+            this._listRef.addData(preData);
         }, 3000);
     }
 
@@ -146,28 +148,24 @@ export default class MallPage extends React.Component{
         return(
             <View style={styles.container}>
                 {this._renderHeader()}
-                    <RefreshFlatList
-                        data={this.state.data}
-                        refreshing={false}
-                        onPullRelease={this._onPullRelease}
-                        keyExtractor={(item, index) => {return index}}
-                        getItemLayout={(data, index) => (
-                        {length: 120, offset: 120 * index, index}
-                        )}
-                        ListFooterComponent={()=> this._renderFoot()}
-                        onEndReached={()=> this._loadMore()}
-                        onEndThreshold={1}
-                        renderItem={(item)=> this._renderItem(item)}/>
+                <RefreshFlatList
+                    ref={(list)=> this._listRef = list}
+                    onPullRelease={this._onPullRelease}
+                    ItemHeight={120}
+                    onEndReached={()=> this._loadMore()}
+                    renderItem={(item)=> this._renderItem(item)}/>
             </View>
         );
     }
 
     render(){
-        if (this.state.isInit){
-            return this._renderInit()
-        } else{
-            return this._rendFlatList();
-        }
+        // if (this.state.isInit){
+        //     return this._renderInit()
+        // } else{
+        //     return this._rendFlatList();
+        // }
+
+        return this._rendFlatList();
     }
 }
 
