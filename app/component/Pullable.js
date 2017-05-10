@@ -313,9 +313,9 @@ const styles = StyleSheet.create({
     arrow:{
         height: 30,
         width: 30,
-        marginRight: 30,
+        marginRight: 20,
     },
     arrowText:{
-        marginLeft: 30,
+        marginLeft: 20,
     }
 });

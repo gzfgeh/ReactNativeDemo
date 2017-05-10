@@ -15,6 +15,7 @@ import {
 import LoginPage from './LoginPage'
 import Utils from './../common/theme'
 import RefreshFlatList from './../component/RefreshFlatList'
+import SearchHeader from './../component/SearchHeader'
 
 const preData = [{keysss: 1},{keysss:2},{keysss:3},{keysss:4},{keysss:5},{keysss:6},{keysss:7},{keysss:8},{keysss:9},{keysss:10}];
 const newData = [{keysss: 12},{keysss:23},{keysss:34},{keysss:45},{keysss:56},{keysss:67},{keysss:78},{keysss:89},{keysss:90},{keysss:10}];
@@ -118,23 +119,33 @@ export default class MallPage extends React.Component{
     }
 
     /**
+     * 点击搜索框
+     * @private
+     */
+    _searchAction(){
+        ToastLog("search")
+    }
+
+    _searchBack(){
+        ToastLog("back")
+    }
+
+    /**
      *
      * @returns {XML}
      * @private
      */
     _renderHeader(){
         return(
-          <Text style={{
-              width:"100%",
-              height:100,
-              justifyContent: 'center', alignItems: 'center'}}>这是固定头部</Text>
-        );
+            <SearchHeader
+                onPress={()=> this._searchAction()}
+                onBack={()=> this._searchBack()}/>);
     }
 
     _rendFlatList(){
         return(
             <View style={styles.container}>
-                    {this._renderHeader()}
+                {this._renderHeader()}
                     <RefreshFlatList
                         data={this.state.data}
                         refreshing={false}

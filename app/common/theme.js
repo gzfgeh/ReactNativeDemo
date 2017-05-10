@@ -51,7 +51,9 @@ const actionBar = {
     backgroundColor: '#ea5251',
     fontSize: pixToDpSize(50),
     fontColor: 'white'
-}
+};
+
+const isIOS = Platform.OS === 'ios';
 
 module.exports = {
     screenWidth,
@@ -63,4 +65,5 @@ module.exports = {
     underClickColor,
     dividerBgColor,
     themeColor,
+    isIOS,
 };
