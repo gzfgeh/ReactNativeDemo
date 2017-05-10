@@ -12,7 +12,7 @@ export default class RefreshFlatList extends Pullable {
     constructor(props) {
         super(props);
         this.getMetrics = this.getMetrics.bind(this);
-        this.scrollTo = this.scrollTo.bind(this);
+        this.scrollToOffset = this.scrollToOffset.bind(this);
         this.scrollToEnd = this.scrollToEnd.bind(this);
     }
 
@@ -20,8 +20,8 @@ export default class RefreshFlatList extends Pullable {
         this.scroll.getMetrics(args);
     }
 
-    scrollTo(...args) {
-        this.scroll.scrollTo(...args);
+    scrollToOffset(...args) {
+        this.scroll.scrollToOffset(...args);
     }
 
     scrollToEnd(args) {
@@ -31,8 +31,9 @@ export default class RefreshFlatList extends Pullable {
     getScrollable() {
         return (
             <FlatList ref={(c) => {this.scroll = c;}}
+                      onScroll={this.onScroll}
                       scrollEnabled={this.state.scrollEnabled}
-                      onScroll={this.onScroll} {...this.props} />
+                      {...this.props} />
         );
     }
 }

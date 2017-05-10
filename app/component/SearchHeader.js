@@ -73,8 +73,8 @@ const styles = StyleSheet.create({
         fontSize: Utils.pixToSp(20)
     },
     inputIcon:{
-        marginLeft: 5,
-        marginRight: 8,
+        marginLeft: 10,
+        marginRight: 10,
     },
     inputText: {
         flex: 1,
