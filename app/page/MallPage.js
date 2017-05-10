@@ -24,8 +24,6 @@ export default class MallPage extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            isInit: true,
-            isRefresh: false,
             data: preData,
         }
 
@@ -35,22 +33,6 @@ export default class MallPage extends React.Component{
         }, 3000);
     }
 
-    _renderInit(){
-        setTimeout(() => {
-            this.setState({
-                isInit: false,
-            });
-
-        }, 3000);
-        return(
-            <View
-                style={{flex: 1,justifyContent: 'center',
-                    alignItems: 'center', backgroundColor:'white'}}>
-                <ActivityIndicator animating size="large" />
-            </View>
-        );
-    }
-
     /**
      * 下拉刷新
      * @private
@@ -58,7 +40,7 @@ export default class MallPage extends React.Component{
     _onPullRelease(resolve){
         setTimeout(() => {
             resolve();
-            //this._listRef.setData(newData)
+            this._listRef.setData(newData);
         }, 3000);
     }
 
@@ -69,24 +51,6 @@ export default class MallPage extends React.Component{
      */
     _onItemPress(item){
         this.props.navigator.push({component: LoginPage})
-    }
-
-    /**
-     * 加载更多 UI渲染
-     * @returns {XML}
-     * @private
-     */
-    _renderFoot(){
-        return(
-            <View
-                style={{
-                    paddingVertical: 10,
-                    borderTopWidth: 1,
-                    borderColor: "#CED0CE"
-                }}>
-                <ActivityIndicator animating size="large" />
-            </View>
-        );
     }
 
     /**
@@ -144,28 +108,18 @@ export default class MallPage extends React.Component{
                 onBack={()=> this._searchBack()}/>);
     }
 
-    _rendFlatList(){
+    render(){
         return(
             <View style={styles.container}>
                 {this._renderHeader()}
                 <RefreshFlatList
                     ref={(list)=> this._listRef = list}
-                    onPullRelease={this._onPullRelease}
+                    onPullRelease={(resolve)=> this._onPullRelease(resolve)}
                     ItemHeight={120}
                     onEndReached={()=> this._loadMore()}
                     renderItem={(item)=> this._renderItem(item)}/>
             </View>
         );
-    }
-
-    render(){
-        // if (this.state.isInit){
-        //     return this._renderInit()
-        // } else{
-        //     return this._rendFlatList();
-        // }
-
-        return this._rendFlatList();
     }
 }
 

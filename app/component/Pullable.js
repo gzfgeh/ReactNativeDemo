@@ -38,7 +38,7 @@ export default class extends Component {
     constructor(props) {
         super(props);
         this.pullable = this.props.refreshControl == null;
-        this.defaultScrollEnabled = false; //!(this.props.onPulling || this.props.onPullOk || this.props.onPullRelease); //定义onPull***属性时scrollEnabled为false
+        this.defaultScrollEnabled = false;  //定义onPull***属性时scrollEnabled为false
         this.topIndicatorHeight = this.props.topIndicatorHeight ? this.props.topIndicatorHeight : defaultTopIndicatorHeight;
         this.defaultXY = {x: 0, y: this.topIndicatorHeight * -1};
         this.pullOkMargin = this.props.pullOkMargin ? this.props.pullOkMargin : pullOkMargin;
@@ -76,9 +76,6 @@ export default class extends Component {
         if (!this.pullable || !isVerticalGesture(gesture.dx, gesture.dy)) { //不使用pullable,或非向上 或向下手势不响应
             return false;
         }
-        // if (this.props.onPulling || this.props.onPullOk || this.props.onPullRelease) {
-        //     return !this.state.scrollEnabled;
-        // }
         if (!this.state.scrollEnabled) {
             this.lastY = this.state.pullPan.y._value;
             return true;

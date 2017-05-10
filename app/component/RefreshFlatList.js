@@ -158,7 +158,7 @@ export default class RefreshFlatList extends Pullable {
                         <Text>网络错误, 点击重新加载</Text>
                     </TouchableHighlight>
                 )
-        }else if(this.currentState > ListState){
+        }else if(this.currentState >= ListState){
             return this.props.renderMore || (
                     <View
                         style={{
