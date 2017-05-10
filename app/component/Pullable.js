@@ -13,7 +13,6 @@ import {
     Dimensions,
     ActivityIndicator,
     StyleSheet,
-    TextInput
 } from 'react-native';
 
 // const padding = 2; //scrollview与外面容器的距离
@@ -68,6 +67,7 @@ export default class extends Component {
             onPanResponderTerminate: this.onPanResponderRelease.bind(this),
         });
         this.setFlag(defaultFlag);
+        this.storyTimeKey = "story_time_key";
         this.base64Icon = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAABQBAMAAAD8TNiNAAAAJ1BMVEUAAACqqqplZWVnZ2doaGhqampoaGhpaWlnZ2dmZmZlZWVmZmZnZ2duD78kAAAADHRSTlMAA6CYqZOlnI+Kg/B86E+1AAAAhklEQVQ4y+2LvQ3CQAxGLSHEBSg8AAX0jECTnhFosgcjZKr8StE3VHz5EkeRMkF0rzk/P58k9rgOW78j+TE99OoeKpEbCvcPVDJ0OvsJ9bQs6Jxs26h5HCrlr9w8vi8zHphfmI0fcvO/ZXJG8wDzcvDFO2Y/AJj9ADE7gXmlxFMIyVpJ7DECzC9J2EC2ECAAAAAASUVORK5CYII=';
 
     }
@@ -261,7 +261,7 @@ export default class extends Component {
                     <Text style={styles.arrowText}>{"刷新数据中..."}</Text>
                 </View>
 
-                <Text>上次更新时间:  {dateFormat(new Date().getTime(),'yyyy-MM-dd hh:mm')}</Text>
+                <Text>下拉刷新时间:  {dateFormat(new Date().getTime(),'yyyy-MM-dd hh:mm')}</Text>
             </View>
         );
     }
