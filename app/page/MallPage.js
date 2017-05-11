@@ -25,12 +25,18 @@ export default class MallPage extends React.Component{
         super(props);
         this.state = {
             data: preData,
-        }
+        };
+        this.moreTime = 0;
 
         setTimeout(() => {
-            this._listRef.setData(preData);
+            this._listRef.setData([]);
 
         }, 3000);
+
+        // setTimeout(() => {
+        //     this._listRef.setError();
+        //
+        // }, 2000);
     }
 
     /**
@@ -40,6 +46,7 @@ export default class MallPage extends React.Component{
     _onPullRelease(resolve){
         setTimeout(() => {
             resolve();
+            this.moreTime = 0;
             this._listRef.setData(newData);
         }, 3000);
     }
@@ -59,7 +66,13 @@ export default class MallPage extends React.Component{
      */
     _loadMore(){
         setTimeout(() => {
-            this._listRef.addData(preData);
+            if (this.moreTime < 3){
+                this._listRef.addData(preData);
+                this.moreTime ++;
+            }else{
+                this._listRef.addData([]);
+            }
+
         }, 3000);
     }
 

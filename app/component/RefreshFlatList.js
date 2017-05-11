@@ -49,7 +49,7 @@ export default class RefreshFlatList extends Pullable {
      * 对外提供API,设置列表数据
      */
     setData(_data){
-        if (_data.size == 0){
+        if (_data.length == 0){
             this.currentState = EmptyState;
         }else{
             this.currentState = ListState;
@@ -63,14 +63,36 @@ export default class RefreshFlatList extends Pullable {
      * 对外提供API, loadMore 调用
      */
     addData(_data){
-        if (_data.size == 0){
+        if (_data.length == 0){
             this.currentState = NoMoreState;
+
         }else{
             this.currentState = MoreState;
         }
         this.setState({
             data: this.state.data.concat(_data),
         })
+    }
+
+    /**
+     * 对外提供API, 加载数据出错
+     */
+    setError(){
+        if(this.state.data == null || this.state.data.length == 0){
+            this.currentState = ErrorState;
+        }else {
+            this.currentState = NoMoreErrorState;
+        };
+        this.forceUpdate();
+    }
+
+    /**
+     * 对外提供API, 出错重新加载数据
+     */
+    reloadData(){
+        this.currentState = LoadingState;
+        this.props.onPullRelease(this.resolveHandler);
+        this.forceUpdate();
     }
 
     /**
@@ -92,12 +114,13 @@ export default class RefreshFlatList extends Pullable {
      */
     _renderEmpty(){
         return (
-            <TouchableHighlight
-                style={styles.contain}
-                underlayColor="rgba(34, 26, 38, 0.1)"
-                onPress={()=> {this.props.onPullRelease}}>
-                <Text>数据为空, 点击重新加载</Text>
-            </TouchableHighlight>
+            <View style={styles.contain}>
+                <TouchableHighlight
+                    underlayColor="rgba(34, 26, 38, 0.1)"
+                    onPress={()=> this.reloadData()}>
+                    <Text>数据为空, 点击重新加载</Text>
+                </TouchableHighlight>
+            </View>
         )
     }
 
@@ -106,12 +129,14 @@ export default class RefreshFlatList extends Pullable {
      */
     _renderError(){
         return (
-            <TouchableHighlight
-                style={styles.contain}
-                underlayColor="rgba(34, 26, 38, 0.1)"
-                onPress={()=> {this.props.onPullRelease}}>
-                <Text>网络错误, 点击重新加载</Text>
-            </TouchableHighlight>
+            <View style={styles.contain}>
+                <TouchableHighlight
+                    underlayColor="rgba(34, 26, 38, 0.1)"
+                    onPress={()=> this.reloadData()}>
+                    <Text>网络错误, 点击重新加载</Text>
+                </TouchableHighlight>
+            </View>
+
         )
     }
 
@@ -179,18 +204,6 @@ export default class RefreshFlatList extends Pullable {
      * @returns {*}
      */
     getScrollable() {
-        //根据网络来判断
-        NetInfo.isConnected.fetch().done((isConnected) => {
-            //console.log('First, is ' + (isConnected ? 'online' : 'offline'));
-            if(!isConnected && this.currentState === LoadingState){
-                this.currentState = ErrorState;
-            }else if (!isConnected && this.currentState > ErrorState){
-                this.currentState = NoMoreErrorState;
-            }else{
-
-            }
-        });
-
         if (this.currentState === LoadingState){
             return this.props.renderLoading || this._renderLoading();
         }else if(this.currentState === EmptyState){
